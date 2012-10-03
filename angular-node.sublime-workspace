@@ -4,16 +4,16 @@
 		"selected_items":
 		[
 			[
+				"pad",
+				"padding-left"
+			],
+			[
 				"back",
 				"background-position"
 			],
 			[
 				"border",
 				"border"
-			],
-			[
-				"pad",
-				"padding-bottom"
 			],
 			[
 				"padd",
@@ -523,56 +523,32 @@
 			"file": "index.php",
 			"settings":
 			{
-				"buffer_size": 1133,
+				"buffer_size": 915,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "lib/js/angular/controllers.js",
+			"file": "/C/wamp/www/dev/ceva/index.html",
 			"settings":
 			{
-				"buffer_size": 150,
+				"buffer_size": 2622,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "/C/Users/PXG1/Desktop/altceva/PASSWORD !!!.txt",
+			"settings":
+			{
+				"buffer_size": 0,
 				"line_ending": "Windows"
 			}
 		},
 		{
-			"file": "lib/js/angular/app.js",
+			"file": "/C/wamp/www/dev/ceva/game/main.js",
 			"settings":
 			{
-				"buffer_size": 175,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "lib/js/angular/directives.js",
-			"settings":
-			{
-				"buffer_size": 918,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "lib/js/angular/filters.js",
-			"settings":
-			{
-				"buffer_size": 394,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "lib/js/angular/services.js",
-			"settings":
-			{
-				"buffer_size": 609,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "lib/server.js",
-			"settings":
-			{
-				"buffer_size": 651,
-				"line_ending": "Windows"
+				"buffer_size": 1596,
+				"line_ending": "Unix"
 			}
 		},
 		{
@@ -580,38 +556,6 @@
 			"settings":
 			{
 				"buffer_size": 164,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/wamp/www/dev/chat/chat/public/javascripts/controllers.js",
-			"settings":
-			{
-				"buffer_size": 1350,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/wamp/www/dev/chat/chat/public/javascripts/directives.js",
-			"settings":
-			{
-				"buffer_size": 215,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/wamp/www/dev/chat/chat/public/javascripts/filters.js",
-			"settings":
-			{
-				"buffer_size": 228,
-				"line_ending": "Windows"
-			}
-		},
-		{
-			"file": "/C/wamp/www/dev/chat/chat/public/javascripts/services.js",
-			"settings":
-			{
-				"buffer_size": 738,
 				"line_ending": "Windows"
 			}
 		}
@@ -696,18 +640,37 @@
 	},
 	"file_history":
 	[
-		"/C/wamp/www/dev/angular-node/lib/js/angular/controllers.js",
-		"/C/wamp/www/dev/angular-node/index.php",
+		"/C/wamp/www/dev/ceva/game/main.js",
+		"/C/wamp/www/dev/ceva/app.js",
 		"/C/wamp/www/dev/angular-node/lib/js/main.js",
-		"/C/wamp/www/dev/angular-node/lib/js/angular/app.js",
-		"/C/wamp/www/dev/angular-node/lib/js/angular/services.js",
+		"/C/Users/PXG1/Desktop/ceva/game/main.js",
+		"/C/Users/PXG1/Desktop/ceva/app.js",
+		"/C/Users/PXG1/Desktop/ceva/npm",
 		"/C/wamp/www/dev/angular-node/lib/js/angular/directives.js",
+		"/C/wamp/www/dev/angular-node/lib/js/jquery.js",
+		"/C/wamp/www/dev/angular-node/lib/js/jquery",
+		"/C/wamp/www/dev/angular-node/lib/js/require.js",
+		"/C/wamp/www/dev/angular-node/lib/js/keyboard.js",
+		"/C/wamp/www/dev/angular-node/lib/js/angular/services.js",
+		"/C/wamp/www/dev/angular-node/lib/js/angular/widgets.js",
+		"/C/wamp/www/dev/chat/game.php",
+		"/C/wamp/www/dev/chat/index.php",
+		"/C/wamp/www/dev/chat/chat.php",
+		"/C/wamp/www/dev/chat/chat/public/javascripts/controllers.js",
+		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/style.css",
+		"/C/wamp/www/dev/chat/chat/public/javascripts/directives.js",
+		"/C/wamp/www/dev/chat/chat/public/javascripts/filters.js",
 		"/C/wamp/www/dev/chat/chat/public/javascripts/services.js",
+		"/C/wamp/www/dev/angular-node/lib/js/angular/controllers.js",
+		"/C/wamp/www/dev/angular-node/lib/js/angular/app.js",
+		"/C/wamp/www/dev/angular-node/lib/js/angular/filters.js",
+		"/C/wamp/www/dev/angular-node/lib/server.js",
+		"/C/Users/PXG1/Desktop/animation/keyframe_animation_finished_edge.js",
+		"/C/wamp/www/dev/angular-node/index.php",
 		"/C/wamp/www/dev/angular-node/lib/js/controllers.js",
 		"/C/wamp/www/dev/chat/chat/routes/socket.js",
 		"/C/wamp/www/dev/angular-node/app.js",
 		"/C/Users/PXG1/AppData/Roaming/Sublime Text 2/Packages/User/Plain text.sublime-settings",
-		"/C/wamp/www/dev/angular-node/lib/js/angular/filters.js",
 		"/C/Users/PXG1/Desktop/test.html",
 		"/C/Users/PXG1/Desktop/script.js",
 		"/C/wamp/www/dev/angular-node/lib/js/angular/directives",
@@ -716,11 +679,8 @@
 		"/C/wamp/www/dev/angular-node/lib/js/respond.js",
 		"/C/wamp/www/dev/angular-node/lib/app.js",
 		"/C/wamp/www/dev/angular-node/css/style.css",
-		"/C/wamp/www/dev/chat/game.php",
-		"/C/wamp/www/dev/chat/chat.php",
 		"/C/wamp/www/dev/chat/chat/app.js",
 		"/C/wamp/www/dev/chat/chat/routes/index.js",
-		"/C/wamp/www/dev/chat/index.php",
 		"/C/wamp/www/dasdas.css",
 		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/style 3.css",
 		"/C/Users/PXG1/Desktop/dasdas.css",
@@ -731,7 +691,6 @@
 		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/loop.php",
 		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/loop-page.php",
 		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/category.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/style.css",
 		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 26/MuscleAndMetal/MuscleAndMetal/style.css",
 		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 26/SlimFitChoices/SlimFitChoices/styles.css",
 		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 26/SlimFitChoices/SlimFitChoices/home.psd",
@@ -808,22 +767,7 @@
 		"/C/wamp/www/dev/kacey-rental/environment.php",
 		"/C/wamp/www/dev/kacey-rental/order",
 		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/header 3.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/style 4.css",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/index 2.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/header 2.php",
-		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 12/AwesomeAbroad/travelviews.psd",
-		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 12/FinancialNewsStories/financialnewsstories.com/functions.php",
-		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 12/FinancialNewsStories/financialnewsstories.com/loop.php",
-		"/C/Users/PXG1/Google Drive/PixelGrade Work/EVS/Sep 12/FinancialNewsStories/financialnewsstories.com/index.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/index 3.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/loop 2.php",
-		"/D/andrei/proiecte/@wordpress/evs/backups/myfabulousheels.com/functions.php",
-		"/D/andrei/proiecte/@wordpress/evs/backups/myfabulousheels.com/loop.php",
-		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/footer.php",
-		"/C/Users/PXG1/Desktop/mothersnews.com.au/header.php",
-		"/C/Users/PXG1/Desktop/mothersnews.com.au/functions.php",
-		"/C/Users/PXG1/Desktop/blog.php",
-		"/C/Users/PXG1/Desktop/plumbtestd.txt"
+		"/C/Users/PXG1/AppData/Local/Temp/fz3temp-1/style 4.css"
 	],
 	"find":
 	{
@@ -845,6 +789,14 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"}\n",
+			".misc-widget-area h2",
+			"#124708",
+			"social",
+			"#3CFF00",
+			"#4BB147",
+			"#17500D",
+			"#006800",
 			"sprite",
 			"form#searchform",
 			"0 -585px",
@@ -964,15 +916,7 @@
 			"meta-c",
 			"Comments",
 			"meta-comments",
-			"comments",
-			"first",
-			"get_image_from_content_src",
-			"first",
-			"upload",
-			"widget",
-			"widgettitle",
-			"first",
-			"by"
+			"comments"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -980,6 +924,11 @@
 		"regex": false,
 		"replace_history":
 		[
+			"#2b90ca",
+			"#69c3e2",
+			"#bababa",
+			"#6f6f6f",
+			"#2b90ca",
 			"62,160,197",
 			"# page specific",
 			"# internal scripts",
@@ -1033,7 +982,7 @@
 	"groups":
 	[
 		{
-			"selected": 3,
+			"selected": 0,
 			"sheets":
 			[
 				{
@@ -1041,15 +990,15 @@
 					"file": "index.php",
 					"settings":
 					{
-						"buffer_size": 1133,
+						"buffer_size": 915,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								1104,
-								1104
+								888,
+								888
 							]
 						],
 						"settings":
@@ -1068,18 +1017,18 @@
 				},
 				{
 					"buffer": 1,
-					"file": "lib/js/angular/controllers.js",
+					"file": "/C/wamp/www/dev/ceva/index.html",
 					"settings":
 					{
-						"buffer_size": 150,
+						"buffer_size": 2622,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								46,
-								46
+								459,
+								386
 							]
 						],
 						"settings":
@@ -1087,36 +1036,36 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/HTML/HTML.tmLanguage",
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 60.0,
+						"translation.y": 0.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
 				},
 				{
 					"buffer": 2,
-					"file": "lib/js/angular/app.js",
+					"file": "/C/Users/PXG1/Desktop/altceva/PASSWORD !!!.txt",
 					"settings":
 					{
-						"buffer_size": 175,
+						"buffer_size": 0,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								150,
-								150
+								0,
+								0
 							]
 						],
 						"settings":
 						{
-							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
+							"syntax": "Packages/Text/Plain text.tmLanguage"
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1126,68 +1075,10 @@
 				},
 				{
 					"buffer": 3,
-					"file": "lib/js/angular/directives.js",
+					"file": "/C/wamp/www/dev/ceva/game/main.js",
 					"settings":
 					{
-						"buffer_size": 918,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								395,
-								402
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 4,
-					"file": "lib/js/angular/filters.js",
-					"settings":
-					{
-						"buffer_size": 394,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								322,
-								322
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 5,
-					"file": "lib/js/angular/services.js",
-					"settings":
-					{
-						"buffer_size": 609,
+						"buffer_size": 1596,
 						"regions":
 						{
 						},
@@ -1203,41 +1094,11 @@
 							"incomplete_sync": null,
 							"remote_loading": false,
 							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 6,
-					"file": "lib/server.js",
-					"settings":
-					{
-						"buffer_size": 651,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								469,
-								469
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
+							"translate_tabs_to_spaces": false
 						},
 						"translation.x": 0.0,
-						"translation.y": 60.0,
+						"translation.y": 600.0,
 						"zoom_level": 1.0
 					},
 					"type": "text"
@@ -1250,11 +1111,11 @@
 			]
 		},
 		{
-			"selected": 1,
+			"selected": 0,
 			"sheets":
 			[
 				{
-					"buffer": 7,
+					"buffer": 4,
 					"file": "/C/wamp/www/dev/chat/chat/public/javascripts/app.js",
 					"settings":
 					{
@@ -1275,126 +1136,6 @@
 							"remote_loading": false,
 							"synced": false,
 							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 8,
-					"file": "/C/wamp/www/dev/chat/chat/public/javascripts/controllers.js",
-					"settings":
-					{
-						"buffer_size": 1350,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								989,
-								991
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 9,
-					"file": "/C/wamp/www/dev/chat/chat/public/javascripts/directives.js",
-					"settings":
-					{
-						"buffer_size": 215,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								0,
-								215
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 10,
-					"file": "/C/wamp/www/dev/chat/chat/public/javascripts/filters.js",
-					"settings":
-					{
-						"buffer_size": 228,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								214,
-								214
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage"
-						},
-						"translation.x": 0.0,
-						"translation.y": 0.0,
-						"zoom_level": 1.0
-					},
-					"type": "text"
-				},
-				{
-					"buffer": 11,
-					"file": "/C/wamp/www/dev/chat/chat/public/javascripts/services.js",
-					"settings":
-					{
-						"buffer_size": 738,
-						"regions":
-						{
-						},
-						"selection":
-						[
-							[
-								313,
-								313
-							]
-						],
-						"settings":
-						{
-							"incomplete_sync": null,
-							"remote_loading": false,
-							"synced": false,
-							"syntax": "Packages/JavaScript/JavaScript.tmLanguage",
-							"tab_size": 2,
-							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
@@ -1450,13 +1191,13 @@
 		"cols":
 		[
 			0.0,
-			0.863580625383,
+			0.96934396076,
 			1.0
 		],
 		"rows":
 		[
 			0.0,
-			0.787265547878,
+			0.895853899309,
 			1.0
 		]
 	},
