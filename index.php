@@ -15,23 +15,27 @@ $user = $ip.': '.$user;
 <html>
 
 <head>
+
 	<meta charset="utf-8">
 	<title> Demo </title>
 	<link rel="stylesheet" href="lib/css/style.css">
-	<script data-main="lib/js/main.js" src="lib/js/require.js"></script>
-	
 	<script type="text/javascript">
 		// to lazzy to create a client.js file
-		// var user = '<?php echo $user ?>';
+		var user = '<?php echo $user ?>';
 	</script>
-
+	<script data-main="lib/js/main.js" src="lib/js/require.js"></script>
+	
 </head>
 
 <body>
 
 	<div>
 
-		<span > <?echo $user; ?> </span>
+		<span >You are : <?echo $user; ?> </span>
+
+		<div id="cr-stage" class="game">
+
+		</div>
 
 	</div>
 

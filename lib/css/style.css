@@ -3,3 +3,23 @@ html {
 	color: #fff;
 	font-size: 16px;
 }
+
+.game {
+	width: 600px;
+	margin: 20px auto;
+	background-color: #fff; 
+}
+
+.user {
+	background-color: #fff;
+	color: #333;
+}
+
+.user .label {
+	background-color: #ebebeb;
+}
+
+.cell {
+	background-color: #fff;
+	border: 1px solid #ebebeb;
+}
