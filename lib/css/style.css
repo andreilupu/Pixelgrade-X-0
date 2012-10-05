@@ -23,3 +23,11 @@ html {
 	background-color: #fff;
 	border: 1px solid #ebebeb;
 }
+
+.host {
+	background-color: red;
+}
+
+.client {
+	background-color: green;
+}
