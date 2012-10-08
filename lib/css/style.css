@@ -24,10 +24,10 @@ html {
 	border: 1px solid #ebebeb;
 }
 
-.host {
+.user .label.host, .host {
 	background-color: red;
 }
 
-.client {
+.user .label.client, .client {
 	background-color: green;
 }

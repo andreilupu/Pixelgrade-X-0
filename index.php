@@ -1,6 +1,6 @@
 <?php
 $user = $_SERVER['HTTP_USER_AGENT'];
-$ip = $_SERVER['HTTP_HOST'];
+$ip = $_SERVER['REMOTE_ADDR'];
 if ( $_SERVER['HTTP_USER_AGENT'] == 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.4 (KHTML, like Gecko) Chrome/22.0.1229.79 Safari/537.4') {
 	$user = 'Chrome';
 } elseif ( $_SERVER['HTTP_USER_AGENT'] ==  'Mozilla/5.0 (Windows NT 6.1; WOW64; rv:15.0) Gecko/20100101 Firefox/15.0.1' ) {
@@ -9,6 +9,7 @@ if ( $_SERVER['HTTP_USER_AGENT'] == 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWe
 	$user = 'Opera';
 }
 $user = $ip.': '.$user;
+
 ?>
 <!DOCTYPE html>
 
