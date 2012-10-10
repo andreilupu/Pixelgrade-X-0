@@ -1,0 +1,16 @@
+{
+  "name":    "Pixelgradex0",
+  "version": "0.0.1",
+
+  "description": "Pixelgradex0",
+
+  "dependencies": {
+    "express":   "*",
+    "socket.io": "*",
+    "node-uuid": "*"
+  },
+
+  "engines": {
+    "node": "0.8.x"
+  }
+}
