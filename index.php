@@ -32,7 +32,7 @@ $user = $ip.': '.$user;
 
 	<div>
 
-		<span >You are : <?echo $user; ?> </span>
+		<!-- <span >You are : <?php //echo $user; ?> </span> -->
 
 		<div id="cr-stage" class="game">
 
