@@ -1,0 +1,120 @@
+
+// ===== FONT STACKS ========================================
+
+// ----- Sans-serif
+$sans-serif-1: Arial, "Helvetica Neue", Helvetica, sans-serif;												// Windows  99% / Mac  98%
+$sans-serif-2: "Arial Black", "Arial Bold", Gadget, sans-serif;												// Windows  98% / Mac  96%
+$sans-serif-3: "Arial Narrow", Arial, sans-serif;															// Windows  88% / Mac  94%
+$sans-serif-4: "Arial Rounded MT Bold", "Helvetica Rounded", Arial, sans-serif;								// Windows  59% / Mac  95%
+$sans-serif-5: Calibri, Candara, Segoe, "Segoe UI", Optima, Arial, sans-serif;								// Windows  83% / Mac  38%
+$sans-serif-6: Candara, Calibri, Segoe, "Segoe UI", Optima, Arial, sans-serif;								// Windows  83% / Mac  38%
+$sans-serif-7: "Century Gothic", CenturyGothic, AppleGothic, sans-serif;									// Windows  87% / Mac  53%
+$sans-serif-8: "Franklin Gothic Medium", "Franklin Gothic", "ITC Franklin Gothic", Arial, sans-serif;		// Windows  99% / Mac   2%
+$sans-serif-9: Futura, "Trebuchet MS", Arial, sans-serif;													// Windows   1% / Mac  94%
+$sans-serif-10: Geneva, Tahoma, Verdana, sans-serif;														// Windows   2% / Mac  99%
+$sans-serif-11: "Gill Sans", "Gill Sans MT", Calibri, sans-serif;											// Windows  58% / Mac  92%
+$sans-serif-12: "Helvetica Neue", Helvetica, Arial, sans-serif;												// Windows   7% / Mac 100%
+$sans-serif-13: Impact, Haettenschweiler, "Franklin Gothic Bold", Charcoal, "Helvetica Inserat", "Bitstream Vera Sans Bold", "Arial Black", sans serif;
+																											// Windows    ? / Mac  95%
+$sans-serif-14: "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Geneva, Verdana, sans-serif;			// Windows   0% / Mac 100%
+$sans-serif-15: Optima, Segoe, "Segoe UI", Candara, Calibri, Arial, sans-serif;								// Windows   2% / Mac  93%
+$sans-serif-16: "Segoe UI", Frutiger, "DejaVu sans", "Helvetica Neue", Arial, sans-serif;					// Windows  75% / Mac   0%
+$sans-serif-17: Tahoma, Verdana, Segoe, sans-serif;															// Windows  99% / Mac  91%
+$sans-serif-18: "Trebuchet MS", "Lucida Grande", "Lucida Sans Unicode", "Lucida Sans", Tahoma, sans-serif;	// Windows  99% / Mac  97%
+$sans-serif-19: Verdana, Geneva, sans-serif;																// Windows  99% / Mac  99%
+
+// ----- Serif
+$serif-1: Baskerville, "Baskerville Old Face", "Hoefler Text", Garamond, "Times New Roman", serif;			// Windows  60% / Mac  93%
+$serif-2: "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif;								// Windows   0% / Mac  93%
+$serif-3: "Bodoni MT", Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;			// Windows  55% / Mac   0%
+$serif-4: "Book Antiqua", Palatino, "Palatino Linotype", "Palatino LT STD", Georgia, serif;					// Windows  86% / Mac  49%
+$serif-5: "Calisto MT", "Bookman Old Style", Bookman, "Goudy Old Style", Garamond, "Hoefler Text", "Bitstream Charter", Georgia, serif;
+																											// Windows  58% / Mac  46%
+$serif-6: Cambria, Georgia, serif;																			// Windows  83% / Mac  35%
+$serif-7: Didot, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif;						// Windows   0% / Mac  93%
+$serif-8: Garamond, Baskerville, "Baskerville Old Face", "Hoefler Text", "Times New Roman", serif;			// Windows  86% / Mac  50%
+$serif-9: Georgia, Times, "Times New Roman", serif;															// Windows  99% / Mac  97%
+$serif-10: "Goudy Old Style", Garamond, "Big Caslon", "Times New Roman", serif;								// Windows  58% / Mac  47%
+$serif-11: "Hoefler Text", "Baskerville old face", Garamond, "Times New Roman", serif;						// Windows   1% / Mac  92%
+$serif-12: "Lucida Bright", Georgia, serif;																	// Windows  76% / Mac  99%
+$serif-13: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;				// Windows  99% / Mac  86%
+$serif-14: Perpetua, Baskerville, "Big Caslon", "Palatino Linotype", Palatino, "URW Palladio L", "Nimbus Roman No9 L", serif;
+																											// Windows  66% / Mac   0%
+$serif-15: Rockwell, "Courier Bold", Courier, Georgia, Times, "Times New Roman", serif;						// Windows  65% / Mac   0%
+$serif-16: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, serif;							// Windows  99% / Mac  97%
+
+// ----- Monospace
+$monospace-1: "Andale Mono", AndaleMono, monospace;															// Windows   4% / Mac  95%
+$monospace-2: Consolas, monaco, monospace;																	// Windows  83% / Mac  35%
+$monospace-3: "Courier New", Courier, "Lucida Sans Typewriter", "Lucida Typewriter", monospace;				// Windows  99% / Mac  95%
+$monospace-4: "Lucida Console", "Lucida Sans Typewriter", Monaco, "Bitstream Vera Sans Mono", monospace;	// Windows  99% / Mac   0%
+$monospace-5: "Lucida Sans Typewriter", "Lucida Console", Monaco, "Bitstream Vera Sans Mono", monospace;	// Windows  75% / Mac  99%
+$monospace-6: Monaco, Consolas, "Lucida Console", monospace;												// Windows   3% / Mac  99%
+
+// ----- Fantasy 
+$fantasy-1: Copperplate, "Copperplate Gothic Light", fantasy;												// Windows  66% / Mac  92%
+$fantasy-2: Papyrus, fantasy;																				// Windows  70% / Mac  92%
+
+// ----- Script
+
+$script-1: "Brush Script MT", cursive;																		// Windows  60% / Mac  91%
+
+
+// ===== TYPOGRAPHY ========================================
+
+@mixin remsize($size) {
+	font-size: #{$size}px;
+	font-size: #{$size/10}rem;
+}
+
+// ----- Default font stacks
+$sans-serif : $sans-serif-12;
+$serif      : $serif-9;
+$monospace  : $monospace-3;
+
+$font-family: $sans-serif; 
+$font-size  : 16; //px
+$line-height: 1.5;
+
+// ----- Default font family
+html {
+	font-size:62.5%;
+}
+
+body {
+	@include remsize($font-size);
+	font-family: $font-family;
+	line-height: $line-height;
+    text-rendering: optimizelegibility;
+}
+
+// ----- Headings
+h1, h2, h3, h4, h5, h6 {
+	font-weight: bold;
+}
+
+// ----- Paragraphs
+p {
+	line-height: $line-height;
+}
+
+// ----- Lists
+ul, ol, dl {
+	line-height: $line-height;
+}
+
+// ----- Quotes
+blockquote {}
+
+// ----- Links
+a {
+	color: #09f;
+	text-decoration: none;
+}
+
+// ----- Selection
+// ::moz-selection		{background: rgb(255,255,158);}
+// ::-moz-selection	{background: rgb(255,255,158);}
+// img::selection		{background: transparent;}
+// img::-moz-selection {background: transparent;}
+// body				{-webkit-tap-highlight-color: rgb(255,255,158);}

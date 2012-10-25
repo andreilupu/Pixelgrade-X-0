@@ -1,7 +1,55 @@
 html {
-	background-color: #123;
-	color: #fff;
+	background: url(./images/bg.jpg) center center no-repeat #000;
+	color: #512210;
 	font-size: 16px;
+	font-family: alexa-std, serif;
+	text-shadow: none;
+}
+
+button.wood {
+	font-weight: bold;
+	font-family: neuton-cursive, serif;
+	border: none;
+	border-bottom: 3px solid #373737;
+	border-radius: 8px;
+	background: url(./images/board.png) center center ;
+	padding: 6px 30px;
+    color: rgba(81,34,16, 0.8);
+    text-shadow: 1px 4px 6px #eec485, 0 0 0 #000, 1px 4px 6px #eec485;
+	font-size: 35px;
+	display: block;
+	cursor: pointer;
+	margin: 0 auto;
+}
+
+/*
+Fonts : 
+neuton-cursive, serif;
+alexa-std, serif;
+hobo-std, serif;
+*/
+.sidebar {
+	background: url(./images/sidebar-bg.png);
+}
+h2 {
+	margin: 0;
+	text-align: center;
+    /* Shadows are visible under slightly transparent text color */
+    color: rgba(81,34,16, 0.8);
+    text-shadow: 1px 4px 6px #eec485, 0 0 0 #000, 1px 4px 6px #eec485;
+}
+
+p {
+	font-family: hobo-std, serif;
+	color: #512210;
+}
+
+/* Don't show shadows when selecting text */
+::-moz-selection { background: #5af; color: #fff; text-shadow: none; }
+::selection { background: #5af; color: #fff; text-shadow: none; }​
+
+#cr-stage {
+	margin: 0 auto;
 }
 
 .game {

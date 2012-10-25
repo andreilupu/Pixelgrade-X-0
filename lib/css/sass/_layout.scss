@@ -1,0 +1,7 @@
+#primary {
+	@include column(8);
+}
+
+#secondary {
+	@include column(4);
+}

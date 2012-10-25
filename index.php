@@ -24,14 +24,19 @@ $user = $ip.': '.$user;
 		// to lazzy to create a client.js file
 		var user = '<?php echo $user ?>';
 	</script>
+	
 	<script data-main="lib/js/main.js" src="lib/js/require.js"></script>
 	
 </head>
 
 <body>
 
-	<div>
+	<div id="setNickname">
+		<input name="nickname" type="text">
+		<button>Set nickname</button>
+	</div>
 
+	<div>
 		<!-- <span >You are : <?php //echo $user; ?> </span> -->
 
 		<div id="cr-stage" class="game">

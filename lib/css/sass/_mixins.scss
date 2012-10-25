@@ -1,0 +1,169 @@
+@mixin clear {
+	&:before, &:after {
+		content: "";
+	    display: table;
+	}
+
+	&:after {
+		clear:both;
+	}
+}
+
+@mixin menu($orientation:"") {
+	list-style:none;
+	margin:0;
+	padding:0;
+
+	@if $orientation == 'horizontal' {
+		@include clear;
+
+		& > li {
+			float:left;
+		}
+
+	} @else {
+
+		& > li {
+			clear:both;
+			float:none;
+		}
+	}
+}
+
+.menu {
+	&.horizontal {
+		@include menu(horizontal);
+	}
+	&.vertical {
+		@include menu(vertical);
+	}
+}
+
+@mixin tabs($direction:top) {
+	line-height:40px;
+
+	& > li {
+
+		a {
+			padding:8px 12px;
+		}
+		
+		&.active {
+			background:#fff;
+			border:1px solid grey;
+		}
+	}
+
+	@if $direction == left {
+		@include menu(vertical);
+		border-right:1px solid grey;
+		float:left;
+
+		& > li {
+			margin-right:-1px;
+
+			&.active {
+				border-right:0;
+			}
+		}
+
+	} @else {
+		@if $direction == bottom {
+			@include menu(horizontal);
+			border-top:1px solid grey;
+
+			& > li {
+				margin-right:-1px;
+
+				&.active {
+					border-right:0;
+				}
+			}
+		} @else {
+			@if $direction == right {
+				@include menu(vertical);
+				border-left:1px solid grey;
+				float:right;
+
+				& > li {
+					margin-left:-1px;
+
+					&.active {
+						border-left:0;
+					}
+				}
+			} @else {
+				@include menu(horizontal);
+				border-bottom:1px solid grey;
+				margin-top:1px;
+
+				& > li {
+					margin-bottom:-1px;
+
+					a {
+						display:block;
+						padding:0 20px;
+						vertical-align:middle;
+					}
+
+					&.active {
+						border-bottom:0;
+						margin-top:-1px;
+					}
+				}
+			}
+		}
+	}
+}
+
+@mixin arrow($position: top, $size: 10px, $background: transparent, $border-width: 0, $border-color: transparent) {
+
+	$offset: left;
+	$border: bottom;
+
+	@if $position == right {
+		$offset: top;
+		$border: top;
+	}
+
+	@if $position == bottom {
+		$offset: left;
+		$border: top; 
+	}
+
+	@if $position == left {
+		$offset: top;
+		$border: right;
+	}
+
+	& {
+		position: relative;
+		border: $border-width solid $border-color;
+	}
+	&:after, &:before {
+		#{$border}: 100%;
+		border: solid transparent;
+		content: " ";
+		height: 0;
+		width: 0;
+		position: absolute;
+		pointer-events: none;
+	}
+
+	&:after {
+		border-#{$border}-color: $background;
+		border-width: $size;
+		#{$offset}: 50%;
+		margin-left: -1 * $size;
+	}
+	&:before {
+		border-bottom-color: $border-color;
+		border-width: $size + 1.5 * $border-width;
+		#{$offset}: 50%;
+		margin-left: -$size + 1.5 * $border-width;
+	}
+}
+
+@mixin tooltip($position: top) {
+	
+}
