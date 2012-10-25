@@ -7,7 +7,8 @@
   "dependencies": {
     "express":   "*",
     "socket.io": "*",
-    "node-uuid": "*"
+    "node-uuid": "*",
+    "passport": "*"
   },
 
   "engines": {
