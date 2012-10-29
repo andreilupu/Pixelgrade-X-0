@@ -1,14 +1,14 @@
 html {
-	background: url(./images/bg.jpg) center center no-repeat #000;
+	background: url(./images/bg.jpg) top center no-repeat #000;
 	color: #512210;
 	font-size: 16px;
-	font-family: alexa-std, serif;
+	font-family: lusitana, serif;
 	text-shadow: none;
 }
 
 button.wood {
 	font-weight: bold;
-	font-family: neuton-cursive, serif;
+	font-family: lusitana, serif;
 	border: none;
 	border-bottom: 3px solid #373737;
 	border-radius: 8px;
@@ -27,16 +27,26 @@ Fonts :
 neuton-cursive, serif;
 alexa-std, serif;
 hobo-std, serif;
+lusitana, serif;
 */
+
 .sidebar {
 	background: url(./images/sidebar-bg.png);
 }
-h2 {
+
+h2.title {
 	margin: 0;
 	text-align: center;
     /* Shadows are visible under slightly transparent text color */
     color: rgba(81,34,16, 0.8);
     text-shadow: 1px 4px 6px #eec485, 0 0 0 #000, 1px 4px 6px #eec485;
+    font-family: lusitana, serif;
+    font-weight: 900;
+}
+
+h3 {
+	font-family: hobo-std, serif;
+	font-size: 18px;
 }
 
 p {
@@ -50,6 +60,12 @@ p {
 
 #cr-stage {
 	margin: 0 auto;
+}
+
+.notice {
+	color: #aaa;
+	font-family: lusitana, serif;
+	font-weight: normal;
 }
 
 .game {
@@ -78,4 +94,115 @@ p {
 
 .user .label.client, .client {
 	background-color: green;
+}
+
+#counter, #modal {
+	display: none;
+}
+
+/* Modal */
+
+html, body {
+	height: 100%;
+	overflow: auto; /* TIP: set it to 'auto' if you have long content pages */
+}
+
+.avgrund-popin {
+	position: absolute;
+	background: #fff;
+	padding: 10px;
+	overflow: hidden;
+	visibility: hidden;
+	opacity: 0;
+	filter: alpha(opacity=0);
+	top: 50%;
+	left: 50%;
+	z-index: 1000;
+	box-shadow: 0 1px 10px 0 rgba(0, 0, 0, .5);
+
+	-webkit-transform: scale(0.8);
+	-moz-transform: scale(0.8);
+	-ms-transform: scale(0.8);
+	-o-transform: scale(0.8);
+	transform: scale(0.8);
+}
+
+.avgrund-overlay {
+	background: #000;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+	top: 0;
+	left: 0;
+	z-index: 101;
+	visibility: hidden;
+	opacity: 0;
+	filter: alpha(opacity=0);
+}
+
+body.avgrund-ready, 
+.avgrund-ready .avgrund-popin, 
+.avgrund-ready .avgrund-overlay {
+	-webkit-transform-origin: 50% 50%;
+	-moz-transform-origin: 50% 50%;
+	-ms-transform-origin: 50% 50%;
+	-o-transform-origin: 50% 50%;
+	transform-origin: 50% 50%;
+
+	-webkit-transition: 0.3s all ease-out;
+	-moz-transition: 0.3s all ease-out;
+	-ms-transition: 0.3s all ease-out;
+	-o-transition: 0.3s all ease-out;
+	transition: 0.3s all ease-out
+}
+
+body.avgrund-active {
+	-webkit-transform: scale(0.9);
+	-moz-transform: scale(0.9);
+	-ms-transform: scale(0.9);
+	-o-transform: scale(0.9);
+	transform: scale(0.9);
+ /* overflow: hidden;  TIP: disables scrolling for long documents */
+}
+
+.avgrund-active .avgrund-popin {
+	visibility: visible;
+	opacity: 1;
+	filter: alpha(opacity=100);
+
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+.avgrund-active .avgrund-overlay {
+	visibility: visible;
+	opacity: .5;
+	filter: alpha(opacity=50);
+}
+
+.avgrund-popin.stack {
+	-webkit-transform: scale(1.5);
+	-moz-transform: scale(1.5);
+	-ms-transform: scale(1.5);
+	-o-transform: scale(1.5);
+	transform: scale(1.5);
+}
+
+.avgrund-active .avgrund-popin.stack {
+	-webkit-transform: scale(1.1);
+	-moz-transform: scale(1.1);
+	-ms-transform: scale(1.1);
+	-o-transform: scale(1.1);
+	transform: scale(1.1);
+}
+
+.avgrund-active .avgrund-blur {
+	-webkit-filter: blur(1px);
+	-moz-filter: blur(1px);
+	-ms-filter: blur(1px);
+	-o-filter: blur(1px);
+	filter: blur(1px);
 }

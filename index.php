@@ -30,7 +30,7 @@ $user = $ip.': '.$user;
 </head>
 
 <body>
-
+<div id="counter"></div>
 	<div id="setNickname">
 		<input name="nickname" type="text">
 		<button>Set nickname</button>
@@ -40,7 +40,7 @@ $user = $ip.': '.$user;
 		<!-- <span >You are : <?php //echo $user; ?> </span> -->
 
 		<div id="cr-stage" class="game">
-
+					<a href="#" id="modal" class="button left">Show it</a>
 		</div>
 
 	</div>
