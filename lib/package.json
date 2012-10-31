@@ -8,7 +8,8 @@
     "express":   "*",
     "socket.io": "*",
     "node-uuid": "*",
-    "passport": "*"
+    "passport": "*",
+    "underscore": "*"
   },
 
   "engines": {
