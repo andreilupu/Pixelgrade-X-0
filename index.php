@@ -13,13 +13,14 @@ $user = $ip.': '.$user;
 ?>
 <!DOCTYPE html>
 
-<html>
+<html style="width:680px;height:580px;">
 
 <head>
 
 	<meta charset="utf-8">
 	<title> Demo </title>
 	<link rel="stylesheet" href="lib/css/style.css">
+	<link rel="stylesheet" href="lib/css/font-awesome.css">
 	<script type="text/javascript">
 		// to lazzy to create a client.js file
 		var user = '<?php echo $user ?>';
@@ -29,20 +30,15 @@ $user = $ip.': '.$user;
 	
 </head>
 
-<body>
+<body >
 <div id="counter"></div>
 	<div id="setNickname">
 		<input name="nickname" type="text">
 		<button>Set nickname</button>
 	</div>
 
-	<div>
-		<!-- <span >You are : <?php //echo $user; ?> </span> -->
-
-		<div id="cr-stage" class="game">
-					<a href="#" id="modal" class="button left">Show it</a>
-		</div>
-
+	<div id="cr-stage" class="game">
+		<a href="#" id="modal" class="button left">Show it</a>
 	</div>
 
 

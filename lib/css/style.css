@@ -1,15 +1,21 @@
 html {
-	background: url(./images/bg.jpg) top center no-repeat #000;
+	background: #000;
 	color: #512210;
 	font-size: 16px;
 	font-family: lusitana, serif;
 	text-shadow: none;
+	overflow: hidden;
+	margin: 0;
+}
+body {
+	background: url(./images/bg.jpg) top center no-repeat #000;
+	margin: 0;
 }
 
 button.wood {
 	font-weight: bold;
 	font-family: lusitana, serif;
-	border: none;
+	border: 1px solid #f2d8ab;
 	border-bottom: 3px solid #373737;
 	border-radius: 8px;
 	background: url(./images/board.png) center center ;
@@ -20,6 +26,11 @@ button.wood {
 	display: block;
 	cursor: pointer;
 	margin: 0 auto;
+	width: 100%;
+}
+
+i{
+	vertical-align: middle;
 }
 
 /*
@@ -40,7 +51,6 @@ h2.title {
     /* Shadows are visible under slightly transparent text color */
     color: rgba(81,34,16, 0.8);
     text-shadow: 1px 4px 6px #eec485, 0 0 0 #000, 1px 4px 6px #eec485;
-    font-family: lusitana, serif;
     font-weight: 900;
 }
 
@@ -63,15 +73,11 @@ p {
 }
 
 .notice {
-	color: #aaa;
-	font-family: lusitana, serif;
+	color: #eee;
+	text-align: center;
+	font-family: Arial, Helvetica, sans-serif;
 	font-weight: normal;
-}
-
-.game {
-	width: 600px;
-	margin: 20px auto;
-	background-color: #fff; 
+	font-style: normal;
 }
 
 .user {
@@ -101,11 +107,6 @@ p {
 }
 
 /* Modal */
-
-html, body {
-	height: 100%;
-	overflow: auto; /* TIP: set it to 'auto' if you have long content pages */
-}
 
 .avgrund-popin {
 	position: absolute;
