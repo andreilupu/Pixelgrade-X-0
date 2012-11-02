@@ -80,6 +80,11 @@ p {
 	font-style: normal;
 }
 
+.notice i {
+	margin-right: 5px;
+	font-size: 23px;
+}
+
 .user {
 	background-color: #fff;
 	color: #333;
