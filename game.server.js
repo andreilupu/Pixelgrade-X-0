@@ -28,31 +28,28 @@ game_server.findGame = function(player_socket) {
 			this.createGame(player_socket);
 		} //if no join already
 
-	} else { //if there are any games at all
-		this.createGame(player_socket); //no games? create one!
+	} else { //if there are no games
+		this.createGame(player_socket);
 	}
 }; //game_server.findGame
 
 game_server.createGame = function(player_socket) {
 
 	var thegame = {
-		id : UUID(),                //generate a new id for the game
-		player_host:player_socket,         //so we know who initiated the game
-		player_client:null,         //nobody else joined yet, since its new
-		player_count:1,				//for simple checking of state
-		turn: 1,			   		// the frekin turn
+		id : UUID(),
+		player_host:player_socket,
+		player_client:null,
+		player_count:1,
+		turn: 1,
 		board: new Array(),
-		turnCount: 1,
+		turnCount: 1,  
 		round: 0
 	};
-
-	//Store it in the list of game
 	this.games[ thegame.id ] = thegame;
-	//Keep track
 	this.game_count++;
 	this.players[player_socket.userid].gameid = thegame.id;
 	thegame.player_host.join(thegame.id); // create a socket room by joining the host to it
-	thegame.player_host.to(thegame.id).emit('createGame', { gameid: thegame.id} );
+	thegame.player_host.to(thegame.id).emit('create:game', { gameid: thegame.id} );
 	thegame.player_host.emit('setMeHost');
 
 	for (var i = 0; i < 3; i++) {
@@ -62,15 +59,14 @@ game_server.createGame = function(player_socket) {
 		}
 	}
 
-	//return it
 	return thegame;
 
 }; //game_server.createGame
 
 game_server.startGame = function(game) {
 
-	game.player_client.to(game.id).emit('startGame', {gameid: game.id}); // the client doesn't know yet his gameid
-	game.player_host.to(game.id).emit('startGame');
+	game.player_client.to(game.id).emit('start:game', {gameid: game.id}); // the client doesn't know yet his gameid
+	game.player_host.to(game.id).emit('start:game');
 
 	game.active = true;
 
@@ -87,7 +83,6 @@ game_server.playerDisconnect = function(socket_userid) {
 
 		//if the game has two players, the one is leaving
 		if(thegame.player_count > 1) {
-
 			if( userid == thegame.player_host.userid) {
 				if(thegame.player_client) {
 					this.findGame(thegame.player_client);
@@ -98,13 +93,13 @@ game_server.playerDisconnect = function(socket_userid) {
 				}
 			}
 		}
-
-	delete this.games[gameid];
-	delete this.players[socket_userid];
-	this.game_count--;
-	this.player_client--;
-	console.log('game removed. there are now ' + this.game_count + ' games' );
+		delete this.games[gameid];
+		this.game_count--;
+		console.log('game removed. there are now ' + this.game_count + ' games' );
 	}
+	delete this.players[socket_userid];
+	this.player_client--;
+
 }; //game_server.playerDisconnect
 
 //we are requesting to kill a game in progress.
@@ -113,14 +108,11 @@ game_server.distroyGame = function(socket_userid) {
 	player = this.players[socket_userid];
 	gameid = player.gameid;
 	userid = player.userid;
-
 	var thegame = this.games[gameid];
 
 	if(thegame) {
-
 		//if the game has two players, the one is leaving
 		if(thegame.player_count > 1) {
-
 			if( userid == thegame.player_host.userid) {
 				if(thegame.player_client) {
 					this.findGame(thegame.player_client);
@@ -131,10 +123,8 @@ game_server.distroyGame = function(socket_userid) {
 				}
 			}
 		}
-
-	delete this.games[gameid];
-	this.game_count--;
-
+		delete this.games[gameid];
+		this.game_count--;
 	} else {
 		console.log('that game was not found!');
 	}
@@ -154,35 +144,35 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 		component = "client";
 	}
 
+	if ( this.games[gameid].turn ) { // no matter what we change the turn
+		this.games[gameid].turn = 0;
+		this.games[gameid].player_client.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 1, turnCount: this.games[gameid].turnCount } );
+		this.games[gameid].player_host.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 0, turnCount: this.games[gameid].turnCount } );
+	} else {
+		this.games[gameid].turn = 1;
+		this.games[gameid].player_client.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 0, turnCount: this.games[gameid].turnCount } );
+		this.games[gameid].player_host.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 1, turnCount: this.games[gameid].turnCount } );
+	}
+
 	//						the board 		coords
 	if ( checkFour(this.games[gameid].board, parseInt(x),parseInt( y)) ){//checkTurn(this.games[gameid].board, x, y, lineWin = 3 ) ) {
 		var winner = "";
 		if ( host ){
-			this.games[gameid].player_host.to(gameid).emit('gameOver', {draw: false, winner: 1 });
-			this.games[gameid].player_client.to(gameid).emit('gameOver', {draw: false, winner: 0 });
+			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 1 });
+			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 0 });
 		} else {
 
-			this.games[gameid].player_host.to(gameid).emit('gameOver', {draw: false, winner: 0 });
-			this.games[gameid].player_client.to(gameid).emit('gameOver', {draw: false, winner: 1 });
+			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 0 });
+			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 1 });
 		}
 		return;
 	}
 
 	if ( this.games[gameid].turnCount == 9 ) { // it's a draw
-		this.games[gameid].player_client.to(gameid).emit('gameOver', { draw: true } );
-		this.games[gameid].player_host.to(gameid).emit('gameOver', { draw: true } );
+		this.games[gameid].player_client.to(gameid).emit('game:over', { draw: true } );
+		this.games[gameid].player_host.to(gameid).emit('game:over', { draw: true } );
 	} else {
 		this.games[gameid].turnCount++;
-	}
-
-	if ( this.games[gameid].turn ) { // no matter what we change the turn
-		this.games[gameid].turn = 0;
-		this.games[gameid].player_client.to(gameid).emit('boardRebuild', { x: x, y: y, component: component, turn: 1, turnCount: this.games[gameid].turnCount } );
-		this.games[gameid].player_host.to(gameid).emit('boardRebuild', { x: x, y: y, component: component, turn: 0, turnCount: this.games[gameid].turnCount } );
-	} else {
-		this.games[gameid].turn = 1;
-		this.games[gameid].player_client.to(gameid).emit('boardRebuild', { x: x, y: y, component: component, turn: 0, turnCount: this.games[gameid].turnCount } );
-		this.games[gameid].player_host.to(gameid).emit('boardRebuild', { x: x, y: y, component: component, turn: 1, turnCount: this.games[gameid].turnCount } );
 	}
 }
 
@@ -197,13 +187,12 @@ game_server.createPlayer = function(socket){
 
 	//Store it in the list of game
 	this.players[ player.id ] = player;
-
-	socket.emit('onconnected', { id: player.id });
+	socket.emit('player:init', { id: player.id });
 }
 
 game_server.getPlayers = function(userid){
 
-	var players = this.players; //underscore.pluck(this.players, 'id' );
+	var players = this.players;
 	
 	return underscore.map(players, function(item){
 		item.socket = ''

@@ -23,7 +23,7 @@
 		var options = $.extend(defaults, options);
 
 		return this.each(function() {
-			var body = $('body'),
+			var body = $('.board'),
 				maxWidth = options.width > 640 ? 640 : options.width,
 				maxHeight = options.height > 350 ? 350 : options.height;
 

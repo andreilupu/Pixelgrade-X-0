@@ -13,17 +13,16 @@ app.configure(function(){
 	app.set('port', process.env.PORT || 8000 );
 	app.use(express.favicon());
 });
-
 server.listen(app.get('port'), function(req, res){
 	console.log("Express server listening on port " + app.get('port'));
 });
-
 game_server = require('./game.server.js');
 
 sio.of('/pixelgradeX&0')
 	.on('connection', function(client) {
 	client.userid = UUID();
 	game_server.createPlayer(client);
+
 	client
 		.on('setNickname', function(data){ // only for development
 			client.set('clientid', client.userid);
@@ -31,20 +30,12 @@ sio.of('/pixelgradeX&0')
 				client.emit('nicknameReady', {name: data.name, id: client.userid});
 			});
 		})
-		.on('setLocalUser', function(data){
-			game_server.getPlayers(client.userid);
-		})
-		.on('findGame',function(data){
+		.on('find:game',function(data){
 			client.get('nickname', function (err, name) {
 				game_server.findGame(client);
 			});
 		})
-		.on('getUsers', function(){
-			client.get('clientid', function (err, id) {
-				client.emit('updateUserlist',game_server.getPlayers(id));
-			});
-		})
-		.on('user-click', function(data){
+		.on('user:click', function(data){
 			client.get('nickname', function (err, name) {
 				game_server.proccessTurn( data.gameid, data.host,  data.cellID );
 			});
@@ -52,7 +43,7 @@ sio.of('/pixelgradeX&0')
 		.on('disconnect', function(){
 			game_server.playerDisconnect(client.userid);
 		})
-		.on('distroyGame', function(){
+		.on('distroy:game', function(){
 			game_server.distroyGame(client.userid);
 			client.emit('onconnected', {id: client.userid});
 		});
