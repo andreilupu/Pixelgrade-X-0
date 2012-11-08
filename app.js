@@ -45,7 +45,7 @@ sio.of('/pixelgradeX&0')
 		})
 		.on('distroy:game', function(){
 			game_server.distroyGame(client.userid);
-			client.emit('onconnected', {id: client.userid});
+			client.emit('player:init', {id: client.userid});
 		});
 });
 

@@ -1,9 +1,11 @@
 var config = {
 	url: "http://192.168.0.101",
 	port: "8000"
-};
+}
+, socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io'
+, x0local = JSON.parse( localStorage.getItem( 'pixelgradeX0') );
 
-var socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io';
+console.log(x0local);
 
 requirejs.config({
 	paths: {
@@ -69,8 +71,19 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
 				.css({display: 'none' });
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h2 class='title'>Joaca <b>X & 0</b> !</h2>")
-				.attr({x: 0, y: 200, w: Crafty.viewport.width/1.25, h: 80})
+				.attr({x: 0, y: 220, w: Crafty.viewport.width/1.25, h: 80})
 				.css({fontSize:"42px", fontWeight: "bold"});
+
+			Crafty.e("HTML, 2D, DOM")
+				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
+				.attr({x: 330, y: 40, w: 116, h: 40});
+
+			Crafty.e("2D, DOM, Image") // avatar holder
+				.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+				.attr({x: 330, y: 90, w: 116, h: 120});
+			Crafty.e("2D, DOM, Image, avatar") // avatar 
+				//.image(x0local.avatar)
+				.attr({x: 332, y: 92, w: 109, h: 109});
 
 			var btn_cauta = Crafty.e("Button");
 			btn_cauta.positionate(60,80,160,40);
@@ -111,9 +124,26 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
 			loader = Crafty.e("Image, 2D, DOM")
 				.image("./media/static/pixelgradeX0/css/images/ajax-loader.gif")
 				.attr({x: 245, y: 270}),
-			sidebar = Crafty.e("2D, DOM, Image")
+			sidebar = Crafty.e("2D, DOM, Image, Persist")
 				.image("./media/static/pixelgradeX0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 72, w: 118, h:395});
+
+				Crafty.e("HTML, 2D, DOM, Persist")
+					.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
+					.attr({x: 527, y: 20, w: 116, h: 40});
+				Crafty.e("2D, DOM, Image, Persist") // top avatar holder
+					.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+					.attr({x: 527, y: 75, w: 116, h: 120});
+				Crafty.e("2D, DOM, Image, avatar, Persist") // my avatar 
+					//.image(x0local.avatar)
+					.attr({x: 529, y: 77, w: 109, h: 109});
+
+				Crafty.e("2D, DOM, Image, Persist") // botom avatar holder
+					.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+					.attr({x: 527, y: 346, w: 116, h: 120});
+				Crafty.e("2D, DOM, Image, avatar, Persist") // ???? 
+					//.image(x0local.avatar)
+					.attr({x: 529, y: 348, w: 109, h: 109});
 
 			var btn_cauta = Crafty.e("Button");
 			btn_cauta.positionate(60,80,160,40);
@@ -125,9 +155,6 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
 				.image("./media/static/pixelgradeX0/css/images/board-ready.png")
 				.attr({x: 45, y: 40, w: 458, h:461})
 				.css({ cursor: "crosshair" }),
-			sidebar = Crafty.e("2D, DOM, Image")
-				.image("./media/static/pixelgradeX0/css/images/sidebar-bg.png")
-				.attr({x: 525, y: 72, w: 118, h:395});
 
 			Crafty.c("cell", {
 				init: function(){
@@ -239,11 +266,10 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
 		socket
 			.on('player:init', function(data){
 
-				var x0local = JSON.parse( localStorage.getItem( 'pixelgradeX0'));
-
 				if ( x0local.name ) {
-					$('#setNickname').hide(0); // hide the form
-					socket.emit('setLocalUser', x0local );
+					//console.log(x0local.name );
+					// $('#setNickname').hide(0); // hide the form
+					// socket.emit('setLocalUser', x0local );
 				}
 
 				clientPlayer.id = data.id;
