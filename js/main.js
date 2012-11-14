@@ -1,11 +1,6 @@
-var config = {
-	url: "http://77.81.241.142",
-	port: "8000"
-}
+var config = require('../config.js')
 , socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io'
 , x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'));
-
-console.log(x0local);
 
 requirejs.config({
 	paths: {
