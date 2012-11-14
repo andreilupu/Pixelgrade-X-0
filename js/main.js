@@ -1,9 +1,11 @@
 var config = {
-	url: "http://192.168.0.101",
+	url: "http://77.81.241.142",
 	port: "8000"
 }
 , socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io'
-, x0local = JSON.parse( localStorage.getItem( 'pixelgradeX0') );
+, x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'));
+
+console.log(x0local);
 
 requirejs.config({
 	paths: {
@@ -14,9 +16,9 @@ requirejs.config({
 	}
 });
 
-requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
-	
-	$(document).ready(function(){
+requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
+;(function($){
+$(document).ready(function(){
 	requirejs([ 'socketio', 'jquery.avgrund' , 'jquery.countdown' ], function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
@@ -53,12 +55,12 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 		Crafty.scene("world", function () { // game world
 			Crafty.viewport.reload();
 			$('#overlay').fadeOut(2600,function(){}); // loader
-			Crafty.background("url('./media/static/pixelgradeX0/css/images/main_table.png') 50% 23% no-repeat transparent");
+			Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 50% 23% no-repeat transparent");
 			var notice = Crafty.e("HTML, 2D, DOM, Persist")
 				.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Bine ai venit ! </div>" )
 				.attr({x: 0, y: 0, w:Crafty.viewport.width, h: 30})
 			sidebar = Crafty.e("2D, DOM, Image") // the right sidebar
-				.image("./media/static/pixelgradeX0/css/images/sidebar-bg.png")
+				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 72, w: 118, h:395});
 			Crafty.e('HTML, DOM')
 				.replace('<h3>Online</h3>')
@@ -77,7 +79,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 				.attr({x: 330, y: 40, w: 116, h: 40});
 
 			Crafty.e("2D, DOM, Image") // avatar holder
-				.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+				.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
 				.attr({x: 330, y: 90, w: 116, h: 120});
 			Crafty.e("2D, DOM, Image, avatar") // avatar 
 				//.image(x0local.avatar)
@@ -113,31 +115,31 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 		Crafty.scene("preload", function () {
 
 			var board = Crafty.e("2D, DOM, Image")
-				.image("./media/static/pixelgradeX0/css/images/board.png")
+				.image("./media/static/Pixelgrade-X-0/css/images/board.png")
 				.attr({x: 45, y: 40, w: 458, h:461}),
 			status = Crafty.e("HTML, 2D, DOM")
 				.replace("<p>Asteapta un adversar !</p>")
 				.attr({x: 140, y: 200, w: Crafty.viewport.width, h:Crafty.viewport.height})
 				.css({color: "#512210",fontSize:"22px", fontWeight: "bold"}),
 			loader = Crafty.e("Image, 2D, DOM")
-				.image("./media/static/pixelgradeX0/css/images/ajax-loader.gif")
+				.image("./media/static/Pixelgrade-X-0/css/images/ajax-loader.gif")
 				.attr({x: 245, y: 270}),
 			sidebar = Crafty.e("2D, DOM, Image, Persist")
-				.image("./media/static/pixelgradeX0/css/images/sidebar-bg.png")
+				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 72, w: 118, h:395});
 
 				Crafty.e("HTML, 2D, DOM, Persist")
 					.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
 					.attr({x: 527, y: 20, w: 116, h: 40});
 				Crafty.e("2D, DOM, Image, Persist") // top avatar holder
-					.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+					.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
 					.attr({x: 527, y: 75, w: 116, h: 120});
 				Crafty.e("2D, DOM, Image, avatar, Persist") // my avatar 
 					//.image(x0local.avatar)
 					.attr({x: 529, y: 77, w: 109, h: 109});
 
 				Crafty.e("2D, DOM, Image, Persist") // botom avatar holder
-					.image("./media/static/pixelgradeX0/css/images/avatar-holder.png")
+					.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
 					.attr({x: 527, y: 346, w: 116, h: 120});
 				Crafty.e("2D, DOM, Image, avatar, Persist") // ???? 
 					//.image(x0local.avatar)
@@ -150,7 +152,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 
 		Crafty.scene("game", function () {
 			var board = Crafty.e("2D, DOM, Image, Persist, board")
-				.image("./media/static/pixelgradeX0/css/images/board-ready.png")
+				.image("./media/static/Pixelgrade-X-0/css/images/board-ready.png")
 				.attr({x: 45, y: 40, w: 458, h:461})
 				.css({ cursor: "crosshair" });
 
@@ -168,7 +170,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 			Crafty.c("client", {
 				init: function(){
 					this.requires("Mouse, Image, Persist");
-					this.image("./media/static/pixelgradeX0/css/images/0.png", "no-repeat");
+					this.image("./media/static/Pixelgrade-X-0/css/images/0.png", "no-repeat");
 					this.origin("center");
 					this.css({ cursor: "crosshair", margin: "16px 25px" });
 					this.unbind("Click");
@@ -179,7 +181,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 			Crafty.c("host", {
 				init: function(){
 					this.requires("Mouse, Image, Persist");
-					this.image("./media/static/pixelgradeX0/css/images/x.png", "no-repeat");
+					this.image("./media/static/Pixelgrade-X-0/css/images/x.png", "no-repeat");
 					this.origin("center");
 					this.css({ cursor: "crosshair", margin: "18px 25px" });
 					this.unbind("Click");	
@@ -264,11 +266,11 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 		socket
 			.on('player:init', function(data){
 
-				if ( x0local.name ) {
+/*				if ( x0local.name ) {
 					//console.log(x0local.name );
 					// $('#setNickname').hide(0); // hide the form
 					// socket.emit('setLocalUser', x0local );
-				}
+				}*/
 
 				clientPlayer.id = data.id;
 				Crafty.scene("world");
@@ -348,5 +350,6 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 				.attr({x: Crafty.viewport.width/4, y: Crafty.viewport.height/2, w: Crafty.viewport.width, h:Crafty.viewport.height})
 				.css({color: "#345",fontSize:"22px", fontWeight: "bold"});
 	}); // require socketIo
-	});
+});
+})(jQuery);
 }); //require jQuery and crafty
