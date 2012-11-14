@@ -5,8 +5,6 @@ var config = {
 , socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io'
 , x0local = JSON.parse( localStorage.getItem( 'pixelgradeX0') );
 
-console.log(x0local);
-
 requirejs.config({
 	paths: {
 		jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min',
@@ -16,10 +14,10 @@ requirejs.config({
 	}
 });
 
-requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
+requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function($) {
 	
 	$(document).ready(function(){
-	requirejs([ 'socketio', 'jquery.cookie', 'jquery.countdown', 'jquery.avgrund' ], function(){
+	requirejs([ 'socketio', 'jquery.avgrund' , 'jquery.countdown' ], function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
 			client_board = new Array(),
@@ -154,7 +152,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana' ], function($) {
 			var board = Crafty.e("2D, DOM, Image, Persist, board")
 				.image("./media/static/pixelgradeX0/css/images/board-ready.png")
 				.attr({x: 45, y: 40, w: 458, h:461})
-				.css({ cursor: "crosshair" }),
+				.css({ cursor: "crosshair" });
 
 			Crafty.c("cell", {
 				init: function(){

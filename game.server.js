@@ -58,7 +58,7 @@ game_server.createGame = function(player_socket) {
 			thegame.board[i][j]  = -1 ;
 		}
 	}
-
+	console.log("Game created : " + thegame.id);
 	return thegame;
 
 }; //game_server.createGame
@@ -69,7 +69,7 @@ game_server.startGame = function(game) {
 	game.player_host.to(game.id).emit('start:game');
 
 	game.active = true;
-
+	console.log("Game started : " + game.id);
 	db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
 }; //game_server.startGame
 
@@ -94,9 +94,13 @@ game_server.playerDisconnect = function(socket_userid) {
 			}
 		}
 		delete this.games[gameid];
+		console.log("Game deleted : " + gameid);
 		this.game_count--;
 		console.log('game removed. there are now ' + this.game_count + ' games' );
 	}
+
+	console.log("Player disconnected " + socket_userid);
+
 	delete this.players[socket_userid];
 	this.player_client--;
 
@@ -155,20 +159,24 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 	}
 
 	//						the board 		coords
-	if ( checkFour(this.games[gameid].board, parseInt(x),parseInt( y)) ){//checkTurn(this.games[gameid].board, x, y, lineWin = 3 ) ) {
+	if ( checkFour(this.games[gameid].board, parseInt(x),parseInt( y)) ){ //checkTurn(this.games[gameid].board, x, y, lineWin = 3 ) ) {
 		var winner = "";
 		if ( host ){
 			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 1 });
 			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 0 });
+			console.log("Host Winner ! " + gameid );
 		} else {
 
 			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 0 });
 			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 1 });
+			console.log("Client Winner ! " + gameid );
 		}
+
 		return;
 	}
 
 	if ( this.games[gameid].turnCount == 9 ) { // it's a draw
+		console.log("Draw ! " + gameid );
 		this.games[gameid].player_client.to(gameid).emit('game:over', { draw: true } );
 		this.games[gameid].player_host.to(gameid).emit('game:over', { draw: true } );
 	} else {
@@ -188,16 +196,10 @@ game_server.createPlayer = function(socket){
 	//Store it in the list of game
 	this.players[ player.id ] = player;
 	socket.emit('player:init', { id: player.id });
+	console.log("Player Created ! " + player.id );
 }
 
 game_server.getPlayers = function(userid){
-
-	var players = this.players;
-	
-	return underscore.map(players, function(item){
-		item.socket = ''
-		return item;
-	});
 
 }
 
