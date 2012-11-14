@@ -1,6 +1,9 @@
-var config = require('../config.js')
-, socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io'
-, x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'));
+var config = {
+	url: "http://192.168.0.101",
+	port: "8000"
+}
+
+var socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io';
 
 requirejs.config({
 	paths: {
@@ -12,12 +15,13 @@ requirejs.config({
 });
 
 requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
-;(function($){
-$(document).ready(function(){
+;(function($){$(document).ready(function(){
+
 	requirejs([ 'socketio', 'jquery.avgrund' , 'jquery.countdown' ], function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
 			client_board = new Array(),
+			x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'))
 			clientPlayer = {id:0, host: 0, name: "", gameid: "", activeOnServer: false };
 
 		Crafty.init(670, 580);
@@ -345,6 +349,5 @@ $(document).ready(function(){
 				.attr({x: Crafty.viewport.width/4, y: Crafty.viewport.height/2, w: Crafty.viewport.width, h:Crafty.viewport.height})
 				.css({color: "#345",fontSize:"22px", fontWeight: "bold"});
 	}); // require socketIo
-});
-})(jQuery);
+});})(jQuery); // document ready & closure
 }); //require jQuery and crafty

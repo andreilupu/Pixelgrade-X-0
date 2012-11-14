@@ -16,6 +16,7 @@ app.configure(function(){
 server.listen(app.get('port'), function(req, res){
 	console.log("Express server listening on port " + app.get('port'));
 });
+
 game_server = require('./game.server.js');
 
 sio.of('/pixelgradeX&0')
