@@ -6,13 +6,13 @@
 	
 	width: 690px;
 	height: 570px;
-	color: #512210;
 	font-size: 16px;
 	font-family: $lusitana;
 	text-shadow: none;
 	overflow: hidden;
 	margin: 0;
 	position: relative;
+	color: $color;
 	background: url(../images/bg.jpg) top center no-repeat #000;
 	
 	#overlay {
@@ -29,13 +29,29 @@
 	}
 
 	#cr-stage {
-		
+		.sound-btn {
+			cursor: pointer;
+			color: #eee;
+		}
+
 		.notice {
 			color: #eee;
 			text-align: center;
 			font-family: Arial, Helvetica, sans-serif;
 			font-weight: normal;
 			font-style: normal;
+			opacity: 0.2;
+			@include animation(anim, 2s, infinite);
+		}
+
+		.sound-notice {
+			color: #eee;
+			text-align: center;
+			font-family: Arial, Helvetica, sans-serif;
+			font-weight: normal;
+			font-style: normal;
+			margin-left:0;
+			@include animation(slideLeft, 3s, infinite);
 		}
 
 		.button {

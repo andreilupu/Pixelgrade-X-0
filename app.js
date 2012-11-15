@@ -25,11 +25,17 @@ sio.of('/pixelgradeX&0')
 	game_server.createPlayer(client);
 
 	client
-		.on('setNickname', function(data){ // only for development
-			client.set('clientid', client.userid);
-			client.set('nickname', data.name, function(){
-				client.emit('nicknameReady', {name: data.name, id: client.userid});
-			});
+		// .on('setNickname', function(data){ // only for development
+		// 	client.set('nickname', data.name, function(){
+		// 		client.emit('nicknameReady', {name: data.name, id: client.userid});
+		// 	});
+		// })
+		.on('set:player', function(data){
+			client.set('clientid', data.userid);
+			client.set('nickname', data.ls.name);
+			client.get('clientid', function (err,id){
+				game_server.setPlayer(id,data.ls); // send the local storage	
+			})
 		})
 		.on('find:game',function(data){
 			client.get('nickname', function (err, name) {

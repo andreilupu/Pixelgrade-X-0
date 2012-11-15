@@ -14,6 +14,7 @@ requirejs.config({
 	}
 });
 
+
 requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 ;(function($){$(document).ready(function(){
 
@@ -24,8 +25,14 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'))
 			clientPlayer = {id:0, host: 0, name: "", gameid: "", activeOnServer: false };
 
-		Crafty.init(670, 580);
+		Crafty.init(690, 580);
 		Crafty.canvas.init();
+		Crafty.audio.add("Bg", ["./media/static/Pixelgrade-X-0/js/audio/bg.wav", "./media/static/Pixelgrade-X-0/js/audio/bg.mp3"]);
+		Crafty.sprite(120, "./media/static/Pixelgrade-X-0/css/images/sprite120.png", {
+			avatarbg: [0, 0],
+			x: [0, 1],
+			zero: [0, 2]
+		});
 
 		Crafty.c("Button", {
 			_buttonEvent: "event",
@@ -40,6 +47,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 				this.replace('<a class="button"><i class="'+icon+'"></i> '+label+'</a>');
 				this.bind("Click", function() {
 					socket.emit(event, data);
+					$('#overlay').fadeIn(10,function(){}); // put the loader
 				});
 			},
 			positionate: function(x,y,w,h) {
@@ -51,46 +59,104 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			}
 		});
 
+		if (x0local.sound) {
+			Crafty.audio.unmute();
+		} else {
+			Crafty.audio.mute();
+		}
+
+		Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 80% 50% no-repeat transparent");
+
+		Crafty.audio.play("Bg", -1, x0local.volume);
+		
 		Crafty.scene("world", function () { // game world
-			Crafty.viewport.reload();
-			$('#overlay').fadeOut(2600,function(){}); // loader
-			Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 50% 23% no-repeat transparent");
-			var notice = Crafty.e("HTML, 2D, DOM, Persist")
+			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
+			$('#overlay').fadeOut(600,function(){}); // loader
+			var notice = Crafty.e("HTML, 2D, DOM")
 				.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Bine ai venit ! </div>" )
-				.attr({x: 0, y: 0, w:Crafty.viewport.width, h: 30})
-			sidebar = Crafty.e("2D, DOM, Image") // the right sidebar
+				.attr({x: 0, y: 10, w:Crafty.viewport.width, h: 30});
+
+			var sidebar = Crafty.e("2D, Canvas, DOM, Image, sidebar") // the right sidebar
 				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 72, w: 118, h:395});
+
+			setTimeout(function(){
+				notice.replace("<div class=\"sound-notice\"> <i class=\"icon-arrow-left\"> </i> Aici poti controla sunetul ! </div>");
+			},7000)
+
+			// Sound buttons
+			// mute btn
+			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
+				.replace("<div class=\"sound-btn\"> <i class=\"icon-music\"></i></div>" )
+				.attr({x: 50, y: 10, z:10, w:30, h: 30})
+				.bind('Click', function(){
+
+					if ( x0local.sound ) {
+						Crafty.audio.mute();
+						x0local.sound = 0;
+						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+					} else {
+						Crafty.audio.unmute();
+						x0local.sound = 1;
+						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+					}
+
+					notice.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Pentru a juca apasa butonul \"Joaca X&0\" ! </div>" );
+				});
+
+			// volume+
+			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
+				.replace("<div class=\"sound-btn\"> <i class=\"icon-plus\"></i></div>" )
+				.attr({x: 30, y: 10, z:10, w:30, h: 30})
+				.bind('Click', function(){
+
+						//x0local.volume = ( (x0local.volume*10) + 10 ) / 10;
+						
+						if ( x0local.volume <= 1 && x0local.volume >= 0 ) {
+							Crafty.audio.volume(x0local.volume);
+							localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+						}
+				});
+
+			// volume-
+			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
+				.replace("<div class=\"sound-btn\"> <i class=\"icon-minus\"></i></div>" )
+				.attr({x: 10, y: 10, z:10, w:30, h: 30})
+				.bind('Click', function(){
+						Crafty.audio.mute();
+						x0local.sound = 0;
+						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+				});
+
 			Crafty.e('HTML, DOM')
 				.replace('<h3>Online</h3>')
-				.attr({x: 525, y: 66, w: 118, h:80})
+				.attr({x: 525, y: 75, w: 118, h:80})
 				.css({textAlign: 'center' });
 			Crafty.e('HTML, DOM, Persist') // the modal trigger
 				.replace('<a id="modal"></a>')
 				.css({display: 'none' });
-			Crafty.e("HTML, 2D, DOM")
-				.replace("<h2 class='title'>Joaca <b>X & 0</b> !</h2>")
-				.attr({x: 0, y: 220, w: Crafty.viewport.width/1.25, h: 80})
-				.css({fontSize:"42px", fontWeight: "bold"});
+			// Crafty.e("HTML, 2D, DOM")
+			// 	.replace("<h2 class='title'>Joaca <b>X & 0</b> !</h2>")
+			// 	.attr({x: 0, y: 220, w: Crafty.viewport.width/1.25, h: 80});
 
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
-				.attr({x: 330, y: 40, w: 116, h: 40});
+				.attr({x: 330, y: 50, w: 116, h: 40});
 
-			Crafty.e("2D, DOM, Image") // avatar holder
-				.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
-				.attr({x: 330, y: 90, w: 116, h: 120});
-			Crafty.e("2D, DOM, Image, avatar") // avatar 
-				//.image(x0local.avatar)
-				.attr({x: 332, y: 92, w: 109, h: 109});
+			Crafty.e("2D, DOM, avatarbg") // avatar holder
+				.attr({x: 330, y: 90, w: 120, h: 120});
+			Crafty.e("2D, DOM, Image, avatar") // avatar
+				.image(x0local.avatar)
+				.attr({x: 339, y: 96, w:120, h:120});
 
 			var btn_cauta = Crafty.e("Button");
 			btn_cauta.positionate(60,80,160,40);
-			btn_cauta.emit('find:game', clientPlayer, 'Cauta', 'icon-arrow-right');
+			btn_cauta.emit('find:game', clientPlayer, 'Joaca <b>X & 0</b>', 'icon-arrow-right');
 
 			// var btn_creaza = Crafty.e("Button");
 			// btn_creaza.positionate(0,110,100,40);
 			// btn_creaza.emit('create:game', clientPlayer, 'Creaza', 'icon-arrow-right');
+
 		});
 
 		// If the player wants to create a custom game
@@ -112,7 +178,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 
 		// Preload Game stage. Preparing players || count down time before start.
 		Crafty.scene("preload", function () {
-
+			$('#overlay').fadeOut(600,function(){}); // put the loader
 			var board = Crafty.e("2D, DOM, Image")
 				.image("./media/static/Pixelgrade-X-0/css/images/board.png")
 				.attr({x: 45, y: 40, w: 458, h:461}),
@@ -127,26 +193,21 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 72, w: 118, h:395});
 
-				Crafty.e("HTML, 2D, DOM, Persist")
+				Crafty.e("HTML, 2D, DOM")
 					.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
-					.attr({x: 527, y: 20, w: 116, h: 40});
-				Crafty.e("2D, DOM, Image, Persist") // top avatar holder
-					.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
+					.attr({x: 527, y: 30, w: 116, h: 40});
+				Crafty.e("2D, DOM, avatarbg, Persist") // top avatar holder
 					.attr({x: 527, y: 75, w: 116, h: 120});
 				Crafty.e("2D, DOM, Image, avatar, Persist") // my avatar 
-					//.image(x0local.avatar)
+					.image(x0local.avatar)
 					.attr({x: 529, y: 77, w: 109, h: 109});
-
-				Crafty.e("2D, DOM, Image, Persist") // botom avatar holder
-					.image("./media/static/Pixelgrade-X-0/css/images/avatar-holder.png")
+				Crafty.e("2D, DOM, avatarbg Persist") // botom avatar holder
 					.attr({x: 527, y: 346, w: 116, h: 120});
-				Crafty.e("2D, DOM, Image, avatar, Persist") // ???? 
-					//.image(x0local.avatar)
-					.attr({x: 529, y: 348, w: 109, h: 109});
 
-			var btn_cauta = Crafty.e("Button");
-			btn_cauta.positionate(60,80,160,40);
-			btn_cauta.emit('distroy:game', clientPlayer, 'Inapoi', 'icon-arrow-left');
+
+				var btn_inapoi = Crafty.e("Button");
+				btn_inapoi.positionate(60,80,160,40);
+				btn_inapoi.emit('distroy:game', clientPlayer, 'Inapoi', 'icon-arrow-left');
 		});
 
 		Crafty.scene("game", function () {
@@ -264,28 +325,15 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 
 		socket
 			.on('player:init', function(data){
-
-/*				if ( x0local.name ) {
-					//console.log(x0local.name );
-					// $('#setNickname').hide(0); // hide the form
-					// socket.emit('setLocalUser', x0local );
-				}*/
-
 				clientPlayer.id = data.id;
 				Crafty.scene("world");
-				socket.emit('get:users');
+				socket.emit('set:player', {userid:clientPlayer.id, ls: x0local});
 			})
-			.on('nicknameReady', function(data){ // getting the nickname from server and create a cookie
-				// we store to name locally
+			.on('nicknameReady', function(data){ // getting the nickname from server and create a local storage
 				var storage = {};
 				storage.name = data.name;
 				localStorage.setItem( 'pixelgradeX0', JSON.stringify(storage) );
-				// setup our name
 				clientPlayer.name = data.name;
-
-			})
-			.on('getPlayers', function(data){
-				console.log(data.players);
 			})
 			.on('setMeHost', function(){
 				clientPlayer.host = 1;
@@ -297,9 +345,6 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			.on('start:game', function(data){
 				if ( data ) { clientPlayer.gameid = data.gameid; }
 				Crafty.scene("game");
-			})
-			.on('updateUserlist', function(data){
-				console.log(data);
 			})
 			.on('board:rebuild', function(data){
 				for (var i = 0; i < 3; i++) {
@@ -334,15 +379,11 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 					}
 				}
 			});
-
-		// Get the nickname and send it to server
-		$('#setNickname button').on('click', this, function(){
-			socket.emit('setNickname', { name: $('#setNickname input').val() } );
-		});
 	}, function(err){ // socket is down
 			Crafty.init(600, 500);
 			Crafty.canvas.init();
 			Crafty.background('#ebebeb');
+			$('#overlay').fadeOut(2600,function(){}); // loader
 			//score display
 			Crafty.e("HTML, 2D, DOM")
 				.replace(" Serverul nu este disponibil momentan !")

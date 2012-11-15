@@ -1,4 +1,4 @@
-var game_server = module.exports = { games : {}, game_count:0, players: {}, players_count:0 }
+var game_server = module.exports = { games : {}, game_count:0, players: {}, players_count:0, guest_count:0 }
 	, UUID        = require('node-uuid')
 	, underscore = require('underscore')
 	, mongo = require('mongoskin');
@@ -197,6 +197,20 @@ game_server.createPlayer = function(socket){
 	this.players[ player.id ] = player;
 	socket.emit('player:init', { id: player.id });
 	console.log("Player Created ! " + player.id );
+
+}
+
+game_server.setPlayer = function(userid, ls){
+	var player = this.players[userid];
+
+	console.log("io : "+this.players[userid]+"\n");
+	this.players[userid].name = ls.name;
+	this.players[userid].avatar = ls.avatar;
+	this.players[userid].type = ls.type;
+
+	console.log(player);
+
+	this.players[userid] = player;
 }
 
 game_server.getPlayers = function(userid){
