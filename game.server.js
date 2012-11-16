@@ -59,7 +59,7 @@ game_server.createGame = function(player_socket) {
 		}
 	}
 	console.log("Game created : " + thegame.id);
-	return thegame;
+	//return thegame;
 
 }; //game_server.createGame
 
@@ -203,12 +203,9 @@ game_server.createPlayer = function(socket){
 game_server.setPlayer = function(userid, ls){
 	var player = this.players[userid];
 
-	console.log("io : "+this.players[userid]+"\n");
 	this.players[userid].name = ls.name;
 	this.players[userid].avatar = ls.avatar;
 	this.players[userid].type = ls.type;
-
-	console.log(player);
 
 	this.players[userid] = player;
 }
