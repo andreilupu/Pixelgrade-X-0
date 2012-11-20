@@ -5,6 +5,8 @@ var game_server = module.exports = { games : {}, game_count:0, players: {}, play
 
 var db = mongo.db('192.168.0.101:29070/pixelgradeX0?auto_reconnect', {safe:false});
 
+// Game functions
+
 game_server.findGame = function(player_socket) {
 	
 	console.log('looking for a game. We have : ' + this.game_count);
@@ -73,6 +75,62 @@ game_server.startGame = function(game) {
 	db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
 }; //game_server.startGame
 
+//we are requesting to kill a game in progress.
+game_server.distroyGame = function(socket_userid) {
+
+	player = this.players[socket_userid];
+	gameid = player.gameid;
+	userid = player.userid;
+	var thegame = this.games[gameid];
+
+	if(thegame) {
+		//if the game has two players, the one is leaving
+		if(thegame.player_count > 1) {
+			if( userid == thegame.player_host.userid) {
+				if(thegame.player_client) {
+					this.findGame(thegame.player_client);
+				}
+			} else {
+				if(thegame.player_host) {
+					this.findGame(thegame.player_host);
+				}
+			}
+		}
+		delete this.games[gameid];
+		this.game_count--;
+	} else {
+		console.log('that game was not found!');
+	}
+}; //game_server.distroyGame
+
+// End game functions
+// Player functions
+
+game_server.createPlayer = function(socket){
+
+	var player = {
+		name: "",
+		id: socket.userid,
+		gameid: "",
+		socket: socket
+	}
+
+	this.players[ player.id ] = player;
+	socket.emit('player:init', { id: player.id });
+	console.log("Player Created ! " + player.id );
+
+}
+
+game_server.setPlayer = function(userid, ls){
+	var player = this.players[userid];
+
+	this.players[userid].name = ls.name;
+	this.players[userid].avatar = ls.avatar;
+	this.players[userid].type = ls.type;
+
+	this.players[userid] = player;
+}
+
 game_server.playerDisconnect = function(socket_userid) {
 
 	player = this.players[socket_userid];
@@ -106,33 +164,8 @@ game_server.playerDisconnect = function(socket_userid) {
 
 }; //game_server.playerDisconnect
 
-//we are requesting to kill a game in progress.
-game_server.distroyGame = function(socket_userid) {
-
-	player = this.players[socket_userid];
-	gameid = player.gameid;
-	userid = player.userid;
-	var thegame = this.games[gameid];
-
-	if(thegame) {
-		//if the game has two players, the one is leaving
-		if(thegame.player_count > 1) {
-			if( userid == thegame.player_host.userid) {
-				if(thegame.player_client) {
-					this.findGame(thegame.player_client);
-				}
-			} else {
-				if(thegame.player_host) {
-					this.findGame(thegame.player_host);
-				}
-			}
-		}
-		delete this.games[gameid];
-		this.game_count--;
-	} else {
-		console.log('that game was not found!');
-	}
-}; //game_server.distroyGame
+// End player functions
+// Game loop functions
 
 game_server.proccessTurn = function(gameid, host, cellID) {
 
@@ -182,41 +215,6 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 	} else {
 		this.games[gameid].turnCount++;
 	}
-}
-
-game_server.createPlayer = function(socket){
-
-	var player = {
-		name: "",
-		id: socket.userid,
-		gameid: "",
-		socket: socket
-	}
-
-	//Store it in the list of game
-	this.players[ player.id ] = player;
-	socket.emit('player:init', { id: player.id });
-	console.log("Player Created ! " + player.id );
-
-}
-
-game_server.setPlayer = function(userid, ls){
-	var player = this.players[userid];
-
-	this.players[userid].name = ls.name;
-	this.players[userid].avatar = ls.avatar;
-	this.players[userid].type = ls.type;
-
-	this.players[userid] = player;
-}
-
-game_server.getPlayers = function(userid){
-
-}
-
-game_server.getGames = function(){
-
-	return this.games;
 }
 
 function checkFour(board, column, row) {
@@ -303,3 +301,5 @@ function checkRightDiagonal(board, column, row,turn) {
 	}
 	return counter >= 3;
 }
+
+// End game loop functions

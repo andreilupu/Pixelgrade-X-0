@@ -35,7 +35,7 @@ http://0to255.com/
 /*********************
 TYPOGRAPHY
 *********************/
-/* line 61, ../scss/_mixins.scss */
+/* line 60, ../scss/_mixins.scss */
 span.amp {
   font-family: Baskerville,'Goudy Old Style',Palatino,'Book Antiqua',serif !important;
   font-style: italic; }
@@ -80,113 +80,113 @@ probably best not to use it. I mean, were you going to anyway? */
 ANIMATION
 *********************/
 @-webkit-keyframes anim {
-  /* line 211, ../scss/_mixins.scss */
+  /* line 210, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; }
 
-  /* line 216, ../scss/_mixins.scss */
+  /* line 215, ../scss/_mixins.scss */
   50% {
     opacity: 1; }
 
-  /* line 221, ../scss/_mixins.scss */
+  /* line 220, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; } }
 
 @-moz-keyframes anim {
-  /* line 211, ../scss/_mixins.scss */
+  /* line 210, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; }
 
-  /* line 216, ../scss/_mixins.scss */
+  /* line 215, ../scss/_mixins.scss */
   50% {
     opacity: 1; }
 
-  /* line 221, ../scss/_mixins.scss */
+  /* line 220, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; } }
 
 @-ms-keyframes anim {
-  /* line 211, ../scss/_mixins.scss */
+  /* line 210, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; }
 
-  /* line 216, ../scss/_mixins.scss */
+  /* line 215, ../scss/_mixins.scss */
   50% {
     opacity: 1; }
 
-  /* line 221, ../scss/_mixins.scss */
+  /* line 220, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; } }
 
 @keyframes anim {
-  /* line 211, ../scss/_mixins.scss */
+  /* line 210, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; }
 
-  /* line 216, ../scss/_mixins.scss */
+  /* line 215, ../scss/_mixins.scss */
   50% {
     opacity: 1; }
 
-  /* line 221, ../scss/_mixins.scss */
+  /* line 220, ../scss/_mixins.scss */
   0% {
     opacity: 0.2; } }
 
 @-webkit-keyframes slideLeft {
-  /* line 229, ../scss/_mixins.scss */
+  /* line 228, ../scss/_mixins.scss */
   0% {
     margin-left: 0; }
 
-  /* line 234, ../scss/_mixins.scss */
+  /* line 233, ../scss/_mixins.scss */
   50% {
     margin-left: -180px; }
 
-  /* line 239, ../scss/_mixins.scss */
+  /* line 238, ../scss/_mixins.scss */
   0% {
     margin-left: 0; } }
 
 @-moz-keyframes slideLeft {
-  /* line 229, ../scss/_mixins.scss */
+  /* line 228, ../scss/_mixins.scss */
   0% {
     margin-left: 0; }
 
-  /* line 234, ../scss/_mixins.scss */
+  /* line 233, ../scss/_mixins.scss */
   50% {
     margin-left: -180px; }
 
-  /* line 239, ../scss/_mixins.scss */
+  /* line 238, ../scss/_mixins.scss */
   0% {
     margin-left: 0; } }
 
 @-ms-keyframes slideLeft {
-  /* line 229, ../scss/_mixins.scss */
+  /* line 228, ../scss/_mixins.scss */
   0% {
     margin-left: 0; }
 
-  /* line 234, ../scss/_mixins.scss */
+  /* line 233, ../scss/_mixins.scss */
   50% {
     margin-left: -180px; }
 
-  /* line 239, ../scss/_mixins.scss */
+  /* line 238, ../scss/_mixins.scss */
   0% {
     margin-left: 0; } }
 
 @keyframes slideLeft {
-  /* line 229, ../scss/_mixins.scss */
+  /* line 228, ../scss/_mixins.scss */
   0% {
     margin-left: 0; }
 
-  /* line 234, ../scss/_mixins.scss */
+  /* line 233, ../scss/_mixins.scss */
   50% {
     margin-left: -180px; }
 
-  /* line 239, ../scss/_mixins.scss */
+  /* line 238, ../scss/_mixins.scss */
   0% {
     margin-left: 0; } }
 
 /*********************
 BUTTONS
 *********************/
-/* line 249, ../scss/_mixins.scss */
+/* line 248, ../scss/_mixins.scss */
 .button, .button:visited {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   border: 1px solid #533220;
@@ -214,7 +214,7 @@ BUTTONS
   background-image: -moz-linear-gradient(top, #834f33, #71442c);
   background-image: -o-linear-gradient(top, #834f33, #71442c);
   background-image: linear-gradient(to bottom, #834f33, #71442c); }
-  /* line 267, ../scss/_mixins.scss */
+  /* line 266, ../scss/_mixins.scss */
   .button i, .button:visited i {
     -webkit-border-radius: 50%;
     -moz-border-radius: 50%;
@@ -234,7 +234,7 @@ BUTTONS
     -o-box-shadow: 0px 1px 2px #333333;
     -box-shadow: 0px 1px 2px #333333;
     box-shadow: 0px 1px 2px #333333; }
-  /* line 278, ../scss/_mixins.scss */
+  /* line 277, ../scss/_mixins.scss */
   .button:hover, .button:focus, .button:visited:hover, .button:visited:focus {
     color: #dfbb80;
     border: 1px solid #533220;
@@ -246,7 +246,7 @@ BUTTONS
     background-image: -moz-linear-gradient(top, #71442c, #5e3925);
     background-image: -o-linear-gradient(top, #71442c, #5e3925);
     background-image: linear-gradient(to bottom, #71442c, #5e3925); }
-  /* line 286, ../scss/_mixins.scss */
+  /* line 285, ../scss/_mixins.scss */
   .button:active, .button:visited:active {
     background-color: #834f33;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#71442c), to(#834f33));
@@ -255,7 +255,7 @@ BUTTONS
     background-image: -o-linear-gradient(top, #71442c, #834f33);
     background-image: linear-gradient(to bottom, #71442c, #834f33); }
 
-/* line 291, ../scss/_mixins.scss */
+/* line 290, ../scss/_mixins.scss */
 .blue-button, .blue-button:visited {
   border-color: #202b35;
   text-shadow: 0 1px 1px #202b35;
@@ -271,7 +271,7 @@ BUTTONS
   -o-box-shadow: inset 0 0 3px #526d88;
   -box-shadow: inset 0 0 3px #526d88;
   box-shadow: inset 0 0 3px #526d88; }
-  /* line 297, ../scss/_mixins.scss */
+  /* line 296, ../scss/_mixins.scss */
   .blue-button:hover, .blue-button:focus, .blue-button:visited:hover, .blue-button:visited:focus {
     border-color: #161e25;
     background-color: #202b35;
@@ -280,7 +280,7 @@ BUTTONS
     background-image: -moz-linear-gradient(top, #2b3a48, #202b35);
     background-image: -o-linear-gradient(top, #2b3a48, #202b35);
     background-image: linear-gradient(to bottom, #2b3a48, #202b35); }
-  /* line 301, ../scss/_mixins.scss */
+  /* line 300, ../scss/_mixins.scss */
   .blue-button:active, .blue-button:visited:active {
     background-color: #334455;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#293745), to(#334455));

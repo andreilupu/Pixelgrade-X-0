@@ -8,14 +8,13 @@ var socketUrl = config.url+":"+config.port+'/socket.io/lib/socket.io';
 requirejs.config({
 	paths: {
 		jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min',
-		font_alexa_std: 'http://use.edgefonts.net/alexa-std',
 		lusitana: 'http://use.edgefonts.net/lusitana',
 		socketio: socketUrl
 	}
 });
 
 
-requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
+requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 ;(function($){$(document).ready(function(){
 
 	requirejs([ 'socketio', 'jquery.avgrund' , 'jquery.countdown' ], function(){
@@ -78,6 +77,11 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			// var sidebar = Crafty.e("2D, Canvas, DOM, Image, sidebar") // the right sidebar
 			// 	.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 			// 	.attr({x: 525, y: 72, w: 118, h:395});
+
+			// Crafty.e('HTML, DOM')
+			// 	.replace('<h3>Online</h3>')
+			// 	.attr({x: 525, y: 75, w: 118, h:80})
+			// 	.css({textAlign: 'center' });
 			setTimeout(function(){
 				notice.replace("<div class=\"sound-notice\"> <i class=\"icon-arrow-left\"> </i> Aici poti controla sunetul ! </div>");
 			},7000);
@@ -125,30 +129,22 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 				// 		Crafty.viewport.reload();
 				// 	}
 				// });
-
-			// Crafty.e('HTML, DOM')
-			// 	.replace('<h3>Online</h3>')
-			// 	.attr({x: 525, y: 75, w: 118, h:80})
-			// 	.css({textAlign: 'center' });
 			Crafty.e('HTML, DOM, Persist') // the modal trigger
 				.replace('<a id="modal"></a>')
 				.css({display: 'none' });
-			// Crafty.e("HTML, 2D, DOM")
-			// 	.replace("<h2 class='title'>Joaca <b>X & 0</b> !</h2>")
-			// 	.attr({x: 0, y: 220, w: Crafty.viewport.width/1.25, h: 80});
 
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
-				.attr({x: 330, y: 50, w: 116, h: 40});
+				.attr({x: 330, y: 80, w: 116, h: 40});
 
 			Crafty.e("2D, DOM, avatarbg") // avatar holder
-				.attr({x: 330, y: 90, w: 120, h: 120});
+				.attr({x: 330, y: 120, w: 120, h: 120});
 			Crafty.e("2D, DOM, Image, avatar") // avatar
 				.image(x0local.avatar)
-				.attr({x: 335, y: 92, w:110, h:110});
+				.attr({x: 335, y: 122, w:110, h:110});
 
 			var btn_cauta = Crafty.e("Button");
-			btn_cauta.positionate(60,80,160,40);
+			btn_cauta.positionate(60,110,160,40);
 			btn_cauta.emit('find:game', clientPlayer, 'Joaca <b>X & 0</b>', 'icon-arrow-right');
 
 			// var btn_creaza = Crafty.e("Button");
@@ -179,29 +175,29 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			$('#overlay').fadeOut(600,function(){}); // put the loader
 			var board = Crafty.e("2D, DOM, Image")
 				.image("./media/static/Pixelgrade-X-0/css/images/board.png")
-				.attr({x: 45, y: 40, w: 458, h:461}),
+				.attr({x: 45, y: 60, w: 458, h:461}),
 			status = Crafty.e("HTML, 2D, DOM")
 				.replace("<p>Asteapta un adversar !</p>")
-				.attr({x: 170, y: 240, w: Crafty.viewport.width, h:Crafty.viewport.height})
+				.attr({x: 170, y: 270, w:230, h:40})
 				.css({color: "#512210",fontSize:"22px", fontWeight: "bold"}),
 			loader = Crafty.e("Image, 2D, DOM")
 				.image("./media/static/Pixelgrade-X-0/css/images/ajax-loader.gif")
-				.attr({x: 245, y: 270}),
+				.attr({x: 245, y: 300, w:230, h:40}),
 			sidebar = Crafty.e("2D, DOM, Image")
 				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
-				.attr({x: 525, y: 72, w: 118, h:395});
+				.attr({x: 525, y: 92, w: 118, h:395});
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
-				.attr({x: 527, y: 40, w: 116, h: 40});
+				.attr({x: 527, y: 50, w: 116, h: 40});
 			Crafty.e("2D, DOM, avatarbg") // top avatar holder
-				.attr({x: 524, y: 75, z:5, w: 116, h: 120});
+				.attr({x: 524, y: 95, z:5, w: 116, h: 120});
 			Crafty.e("2D, DOM, Image, avatar") // my avatar 
 				.image(x0local.avatar)
-				.attr({x: 529, y: 77, z:10, w: 109, h: 109});
+				.attr({x: 529, y: 97, z:10, w: 109, h: 109});
 			Crafty.e("2D, DOM, avatarbg") // botom avatar holder
-				.attr({x: 524, y: 346, z:5, w: 116, h: 120});
+				.attr({x: 524, y: 366, z:5, w: 116, h: 120});
 			var btn_inapoi = Crafty.e("Button");
-			btn_inapoi.positionate(60,80,160,40);
+			btn_inapoi.positionate(60,110,160,40);
 			btn_inapoi.emit('distroy:game', clientPlayer, 'Inapoi', 'icon-arrow-left');
 		});
 
@@ -209,13 +205,26 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 			$('#overlay').fadeOut(600,function(){}); // put the loader
 			var board = Crafty.e("2D, DOM, Image, Persist, board")
 				.image("./media/static/Pixelgrade-X-0/css/images/board-ready.png")
-				.attr({x: 45, y: 40, w: 458, h:461})
-				.css({ cursor: "crosshair" });
+				.attr({x: 45, y: 60, w: 458, h:461})
+				.css({ cursor: "crosshair" }),
+			sidebar = Crafty.e("2D, DOM, Image")
+				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
+				.attr({x: 525, y: 92, w: 118, h:395});
+			Crafty.e("HTML, 2D, DOM")
+				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
+				.attr({x: 527, y: 50, w: 116, h: 40});
+			Crafty.e("2D, DOM, avatarbg") // top avatar holder
+				.attr({x: 524, y: 95, z:5, w: 116, h: 120});
+			Crafty.e("2D, DOM, Image, avatar") // my avatar 
+				.image(x0local.avatar)
+				.attr({x: 529, y: 97, z:10, w: 109, h: 109});
+			Crafty.e("2D, DOM, avatarbg") // botom avatar holder
+				.attr({x: 524, y: 366, z:5, w: 116, h: 120});
 
 			Crafty.c("cell", {
 				init: function(){
 					this.x = i * 141 + 60;
-					this.y = j * 141 + 52;
+					this.y = j * 141 + 82;
 					this.z = 9999;
 					this.w = 140;
 					this.h = 140;
@@ -225,7 +234,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 
 			Crafty.c("client", {
 				init: function(){
-					this.requires("Mouse, Image, Persist");
+					this.requires("Mouse, Image");
 					this.image("./media/static/Pixelgrade-X-0/css/images/0.png", "no-repeat");
 					this.origin("center");
 					this.css({ cursor: "crosshair", margin: "16px 25px" });
@@ -236,7 +245,7 @@ requirejs([ 'jquery', 'crafty', 'font_alexa_std', 'lusitana'], function() {
 
 			Crafty.c("host", {
 				init: function(){
-					this.requires("Mouse, Image, Persist");
+					this.requires("Mouse, Image");
 					this.image("./media/static/Pixelgrade-X-0/css/images/x.png", "no-repeat");
 					this.origin("center");
 					this.css({ cursor: "crosshair", margin: "18px 25px" });
