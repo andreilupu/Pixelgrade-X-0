@@ -1,112 +1,119 @@
 /*
- * jquery-counter plugin
+ * jQuery.counter plugin
  *
- * Copyright (c) 2009 Martin Conte Mac Donell <Reflejo@gmail.com>
- * Dual licensed under the MIT and GPL licenses.
- * http://docs.jquery.com/License
+ * Copyright (c) 2012 Sophilabs <contact@sophilabs.com>
+ * MIT License
  */
-jQuery.fn.countdown = function(userOptions)
-{
-  // Default options
-  var options = {
-    stepTime: 60,
-    // startTime and format MUST follow the same format.
-    // also you cannot specify a format unordered (e.g. hh:ss:mm is wrong)
-    format: "dd:hh:mm:ss",
-    startTime: "01:12:32:55",
-    digitImages: 6,
-    digitWidth: 53,
-    digitHeight: 77,
-    timerEnd: function(){},
-    image: "digits.png"
-  };
-  var digits = [], interval;
+ 
+!(function (context, definition) {
+  if (typeof define == 'function' && typeof define.amd  == 'object') define(['jquery'], definition);
+  else definition(context['$']);
+}(this, function ($) {
 
-  // Draw digits in given container
-  var createDigits = function(where) 
-  {
-    var c = 0;
-    // Iterate each startTime digit, if it is not a digit
-    // we'll asume that it's a separator
-    for (var i = 0; i < options.startTime.length; i++)
-    {
-      if (parseInt(options.startTime[i]) >= 0) 
-      {
-        elem = $('<div id="cnt_' + i + '" class="cntDigit" />').css({
-          height: options.digitHeight * options.digitImages * 10, 
-          float: 'left', background: 'url(\'' + options.image + '\')',
-          width: options.digitWidth});
-        digits.push(elem);
-        margin(c, -((parseInt(options.startTime[i]) * options.digitHeight *
-                              options.digitImages)));
-        digits[c].__max = 9;
-        // Add max digits, for example, first digit of minutes (mm) has 
-        // a max of 5. Conditional max is used when the left digit has reach
-        // the max. For example second "hours" digit has a conditional max of 4 
-        switch (options.format[i]) {
-          case 'h':
-            digits[c].__max = (c % 2 == 0) ? 2: 9;
-            if (c % 2 == 0)
-              digits[c].__condmax = 4;
-            break;
-          case 'd': 
-            digits[c].__max = 9;
-            break;
-          case 'm':
-          case 's':
-            digits[c].__max = (c % 2 == 0) ? 5: 9;
-        }
-        ++c;
-      }
-      else 
-        elem = $('<div class="cntSeparator"/>').css({float: 'left'})
-                .text(options.startTime[i]);
+    $.fn.counter = function(options) {
 
-      where.append(elem)
-    }
-  };
-  
-  // Set or get element margin
-  var margin = function(elem, val) 
-  {
-    if (val !== undefined)
-      return digits[elem].css({'marginTop': val + 'px'});
+        options = options || {};
 
-    return parseInt(digits[elem].css('marginTop').replace('px', ''));
-  };
+        var checkStop = function(data) {
+            var stop = 0;
+            var current = 0;
+            $.each(data.parts, function(i, part) {
+                stop += (stop * part.limit) + part.stop;
+                current += (current * part.limit) + part.value;
+            });
+            return data.down ? stop >= current : stop <= current;
+        };
 
-  // Makes the movement. This is done by "digitImages" steps.
-  var moveStep = function(elem) 
-  {
-    digits[elem]._digitInitial = -(digits[elem].__max * options.digitHeight * options.digitImages);
-    return function _move() {
-      mtop = margin(elem) + options.digitHeight;
-      if (mtop == options.digitHeight) {
-        margin(elem, digits[elem]._digitInitial);
-        if (elem > 0) moveStep(elem - 1)();
-        else 
-        {
-          clearInterval(interval);
-          for (var i=0; i < digits.length; i++) margin(i, 0);
-          options.timerEnd();
-          return;
-        }
-        if ((elem > 0) && (digits[elem].__condmax !== undefined) && 
-            (digits[elem - 1]._digitInitial == margin(elem - 1)))
-          margin(elem, -(digits[elem].__condmax * options.digitHeight * options.digitImages));
-        return;
-      }
+        var tick = function() {
+            var e = $(this);
+            var data = e.data('counter');
+            var i = data.parts.length - 1;
+            while(i >= 0 ) {
+                var part = data.parts[i];
+                part.value += data.down ? -1 : 1;
+                if (data.down && part.value < 0) {
+                    part.value = part.limit;
+                } else if (!data.down && part.value > part.limit) {
+                    part.value = 0;
+                } else {
+                    break;
+                }
+                i--;
+            }
+            refresh(e, i);
+            if (checkStop(data)) {
+                clearInterval(data.intervalId);
+                e.trigger("counterStop");
+            }
+        };
 
-      margin(elem, mtop);
-      if (margin(elem) / options.digitHeight % options.digitImages != 0)
-        setTimeout(_move, options.stepTime);
+        var refresh = function(e, to) {
+            var data = e.data('counter');
+            var i = data.parts.length - 1;
+            while (i >= to) {
+                var part = data.parts[i];
+                var digits = part.value + '';
+                while (digits.length < part.padding) {
+                    digits = '0' + digits;
+                }
+                $.each(digits.split(''), function(j, digit) {
+                    animate(e, i, j, digit);
+                });
+                i--;
+            }
+        };
 
-      if (mtop == 0) digits[elem].__ismax = true;
-    }
-  };
+        var animate = function(e, ipart, idigit, digit) {
+            var edigit = $($(e.children('span.part').get(ipart)).find('span.digit').get(idigit));
+            edigit.attr('class', 'digit digit' + digit +  ' digit' + edigit.text() + digit).text(digit);
+        };
 
-  $.extend(options, userOptions);
-  this.css({height: options.digitHeight, overflow: 'hidden'});
-  createDigits(this);
-  interval = setInterval(moveStep(digits.length - 1), 1000);
-};
+        return this.each(function() {
+            var e = $(this);
+            var data = e.data('counter') || {};
+            data.interval = parseInt(options.interval || e.attr('data-interval') || '1000', 10);
+            data.down = ( options.direction || e.attr('data-direction') || 'down') == 'down';
+            data.parts = [];
+            var initial = (options.initial || e.text()).split(/([^0-9]+)/);
+            //WARN: Use attr() no data()
+            var format = (options.format || e.attr('data-format') || "23:59:59").split(/([^0-9]+)/);
+            var stop =  options.stop || e.attr('data-stop');
+            if (stop) {
+                stop = stop.split(/([^0-9]+)/);
+            }
+            e.html('');
+            $.each(format, function(index, value) {
+                if (/^\d+$/.test(value)) {
+                    var part = {};
+                    part.index = index;
+                    part.padding = (value + '').length;
+                    part.limit = parseFloat(value);
+                    part.value = parseFloat(initial[initial.length - format.length + index] || 0);
+                    part.value = part.value > part.limit ? part.limit : part.value;
+                    part.stop = parseFloat(stop ? stop[stop.length - format.length + index] : (data.down ? 0 : part.limit));
+                    part.stop = part.stop > part.limit ? part.limit : part.stop;
+                    part.stop = part.stop < 0 ? 0 : part.stop;
+                    var epart = $('<span>').addClass('part').addClass('part' + index);
+                    var digits = part.value + '';
+                    while (digits.length < part.padding) {
+                        digits = '0' + digits;
+                    }
+                    $.each(digits, function(i, digit) {
+                        epart.append($('<span>').addClass('digit digit' + digit).text(digit));
+                    });
+                    e.append(epart);
+                    data.parts.push(part);
+                } else {
+                    e.append($('<span>').addClass('separator').addClass('separator' + index).text(value));
+                }
+            });
+            if (!checkStop(data)) {
+                data.intervalId = setInterval($.proxy(tick, this), data.interval);
+            } else {
+                e.trigger("counterStop");
+            }
+            e.data('counter', data);
+            return this;
+        });
+    };
+}));

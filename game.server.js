@@ -8,15 +8,12 @@ var db = mongo.db('192.168.0.101:29070/pixelgradeX0?auto_reconnect', {safe:false
 // Game functions
 
 game_server.findGame = function(player_socket) {
-	
 	console.log('looking for a game. We have : ' + this.game_count);
-
 	if(this.game_count) {
 		var joined_a_game = false;
 		for(var gameid in this.games) { //Check the list of games for an open game
 			if(!this.games.hasOwnProperty(gameid)) continue; //only care about our own properties.
 			var game_instance = this.games[gameid]; //get the game we are checking against
-
 			if(game_instance.player_count < 2) { //If the game is a player short
 				joined_a_game = true; //someone wants us to join!
 				player_socket.join(gameid); // join in the socket room
@@ -25,18 +22,15 @@ game_server.findGame = function(player_socket) {
 				this.startGame(game_instance);
 			} //if less than 2 players
 		} //for all games
-
 		if(!joined_a_game) { //now if we didn't join a game, we must create one
 			this.createGame(player_socket);
 		} //if no join already
-
 	} else { //if there are no games
 		this.createGame(player_socket);
 	}
 }; //game_server.findGame
 
 game_server.createGame = function(player_socket) {
-
 	var thegame = {
 		id : UUID(),
 		player_host:player_socket,
@@ -45,7 +39,7 @@ game_server.createGame = function(player_socket) {
 		turn: 1,
 		board: new Array(),
 		turnCount: 1,  
-		round: 0
+		round: 1
 	};
 	this.games[ thegame.id ] = thegame;
 	this.game_count++;
@@ -66,10 +60,8 @@ game_server.createGame = function(player_socket) {
 }; //game_server.createGame
 
 game_server.startGame = function(game) {
-
 	game.player_client.to(game.id).emit('start:game', {gameid: game.id}); // the client doesn't know yet his gameid
 	game.player_host.to(game.id).emit('start:game');
-
 	game.active = true;
 	console.log("Game started : " + game.id);
 	db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
@@ -173,7 +165,7 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 		y = cellID.slice(1,2),
 		component = "";
 
-	if (host) {
+	if (host) { // 
 		this.games[gameid].board[x][y] = 1;
 		component = "host";
 	} else {
@@ -181,7 +173,7 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 		component = "client";
 	}
 
-	if ( this.games[gameid].turn ) { // no matter what we change the turn
+	if ( this.games[gameid].turn ) { // no matter what we change the turn and we rebuild the players boards with te new data
 		this.games[gameid].turn = 0;
 		this.games[gameid].player_client.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 1, turnCount: this.games[gameid].turnCount } );
 		this.games[gameid].player_host.to(gameid).emit('board:rebuild', { x: x, y: y, component: component, turn: 0, turnCount: this.games[gameid].turnCount } );
@@ -195,14 +187,15 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 	if ( checkFour(this.games[gameid].board, parseInt(x),parseInt( y)) ){ //checkTurn(this.games[gameid].board, x, y, lineWin = 3 ) ) {
 		var winner = "";
 		if ( host ){
-			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 1 });
-			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 0 });
-			console.log("Host Winner ! " + gameid );
+			this.games[gameid].player_host.wins++; // keep wins
+			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 1 });
+			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 0 });
+			console.log("Host Won the round : "+ this.games[gameid].round +" ! " + gameid );
 		} else {
-
-			this.games[gameid].player_host.to(gameid).emit('game:over', {draw: false, winner: 0 });
-			this.games[gameid].player_client.to(gameid).emit('game:over', {draw: false, winner: 1 });
-			console.log("Client Winner ! " + gameid );
+			this.games[gameid].player_client.wins++; // keep wins
+			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 0 });
+			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 1 });
+			console.log("Client Won the round : "+ this.games[gameid].round +" ! " + gameid );
 		}
 
 		return;
@@ -210,8 +203,8 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 
 	if ( this.games[gameid].turnCount == 9 ) { // it's a draw
 		console.log("Draw ! " + gameid );
-		this.games[gameid].player_client.to(gameid).emit('game:over', { draw: true } );
-		this.games[gameid].player_host.to(gameid).emit('game:over', { draw: true } );
+		this.games[gameid].player_client.to(gameid).emit('round:over', { draw: true } );
+		this.games[gameid].player_host.to(gameid).emit('round:over', { draw: true } );
 	} else {
 		this.games[gameid].turnCount++;
 	}
@@ -258,8 +251,6 @@ function checkLeftDiagonal(board, column, row,turn) {
 			counter++;
 			tmp_row--;
 			tmp_column--;
-			console.log("x" + tmp_column + " y "+ tmp_row);
-			console.log(board);
 		} else break;
 	}
 

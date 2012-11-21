@@ -15,9 +15,8 @@ requirejs.config({
 
 
 requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
-;(function($){$(document).ready(function(){
-
-	requirejs([ 'socketio', 'jquery.avgrund' , 'jquery.countdown' ], function(){
+	requirejs([ 'socketio' , 'jquery.countdown', 'jquery.avgrund' ], function(){
+	;(function($){$(document).ready(function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
 			client_board = new Array(),
@@ -65,8 +64,15 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 		}
 
 		Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 80% 50% no-repeat transparent");
-
 		Crafty.audio.play("Bg", -1);
+
+		Crafty.e('HTML, DOM, Persist') // the modal trigger
+			.replace('<a id="modal"></a>')
+			.css({display: 'none' });
+
+		// Crafty.e('HTML, DOM, Persist')
+		// 	.replace('<span class="counter counter-analog2" data-format="9" data-direction="down">0:10</span>')
+		// 	.attr({x:550, y:20, z:10, w:100, h:100});
 
 		Crafty.scene("world", function () { // game world
 			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
@@ -91,7 +97,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
 				.replace("<div class=\"sound-btn\"> <i class=\"icon-music\"></i></div>" )
 				.attr({x: 50, y: 10, z:10, w:20, h: 20})
-				//.css({'padding-left', '5px'})
 				.bind('Click', function(){
 					console.log('Click');
 					Crafty.audio.toggleMute();
@@ -104,34 +109,34 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 					}
 					notice.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Pentru a juca apasa butonul \"Joaca X&0\" ! </div>" );
 				});
-
 			// volume+
 			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
 				.replace("<div class=\"sound-btn\"> <i class=\"icon-plus\"></i></div>" )
-				.attr({x: 30, y: 10, z:10, w:20, h: 20});
-				// .bind('Click', function(){
-				// 	if ( x0local.volume < 1 && x0local.volume >= 0 ) {
-				// 		x0local.volume = x0local.volume + 0.1;
-				// 		Crafty.audio.volume = x0local.volume;
-				// 		localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
-				// 		Crafty.viewport.reload();
-				// 	}
-				// });
+				.attr({x: 30, y: 10, z:10, w:20, h: 20})
+				.bind('Click', function(){
+					if ( (x0local.volume < 1) && (x0local.volume >= 0) ) {
+						x0local.volume = x0local.volume + 0.1 ;
+						x0local.volume = parseFloat( x0local.volume.toFixed(1) );
+						changeVolume(x0local.volume);
+						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+						Crafty.audio.mute();
+						Crafty.audio.unmute();
+					}
+				});
 			// volume-
 			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
 				.replace("<div class=\"sound-btn\"> <i class=\"icon-minus\"></i></div>" )
-				.attr({x: 10, y: 10, z:10, w:20, h: 20});
-				// .bind('Click', function(){
-				// 	if ( x0local.volume <= 1 && x0local.volume > 0 ) {
-				// 		x0local.volume = x0local.volume - 0.1;
-				// 		Crafty.audio.volume = x0local.volume;
-				// 		localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
-				// 		Crafty.viewport.reload();
-				// 	}
-				// });
-			Crafty.e('HTML, DOM, Persist') // the modal trigger
-				.replace('<a id="modal"></a>')
-				.css({display: 'none' });
+				.attr({x: 10, y: 10, z:10, w:20, h: 20})
+				.bind('Click', function(){
+					if ( (x0local.volume <= 1) && (x0local.volume >= 0.1) ) {
+						x0local.volume = x0local.volume - 0.1 ;
+						x0local.volume = parseFloat( x0local.volume.toFixed(1) );
+						changeVolume(x0local.volume);
+						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+						Crafty.audio.mute();
+						Crafty.audio.unmute();
+					}
+				});
 
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
@@ -202,7 +207,7 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 		});
 
 		Crafty.scene("game", function () {
-			$('#overlay').fadeOut(600,function(){}); // put the loader
+			$('#overlay').fadeOut(600,function(){});
 			var board = Crafty.e("2D, DOM, Image, Persist, board")
 				.image("./media/static/Pixelgrade-X-0/css/images/board-ready.png")
 				.attr({x: 45, y: 60, w: 458, h:461})
@@ -285,7 +290,7 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 			}
 		});
 
-		Crafty.scene("draw", function () {
+		Crafty.scene("round:draw", function () {
 			$('#modal').avgrund({
 				height: 200,
 				holderClass: 'custom',
@@ -294,12 +299,19 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				template: "<h3> Egalitate! <i class=\"icon-legal\"></i></h3>"+
-							"<div class=\"modal-conent\" ><p>Runda fara castigator.</p></div>"
+							"<div class=\"modal-conent\" >"+
+								"<span class=\"counter draw counter-analog\" data-format=\"9\" data-direction=\"down\">0:10</span>"+
+								"<p>Runda fara castigator.</p>"+
+							"</div>"
 			});
 			$('#modal').click();
+			$(".counter").counter({});
+			$('.counter').on('counterStop', function() {
+				closeDialog();
+			});
 		});
 
-		Crafty.scene("win", function () {
+		Crafty.scene("round:win", function () {
 			$('#modal').avgrund({
 				height: 200,
 				holderClass: 'custom',
@@ -308,13 +320,20 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				template: "<h3> Felicitari ! <i class=\"icon-thumbs-up\"></i></h3>"+
-							"<div class=\"modal-conent\" ><p>Ai castigat runda.</p></div>"
+							"<div class=\"modal-conent\" >"+
+								"<span class=\"counter win counter-analog\" data-format=\"9\" data-direction=\"down\">0:10</span>"+
+								"<p>Ai castigat runda.</p>"+
+							"</div>"
 			});
 			$('#modal').click();
+			$(".counter").counter({});
+			$('.counter').on('counterStop', function() {
+				$('#modal').avgrund().deactivate();
+			});
 
 		});
 
-		Crafty.scene("lose", function () {
+		Crafty.scene("round:lose", function () {
 			$('#modal').avgrund({
 				height: 200,
 				holderClass: 'custom',
@@ -323,9 +342,16 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				template: "<h3> Ne pare rau ! <i class=\"icon-thumbs-down \"></i></h3>"+
-							"<div class=\"modal-conent\" ><p>Ai pierdut runda.</p></div>"
+							"<div class=\"modal-conent\" >"+
+								"<span class=\"counter lose counter-analog\" data-format=\"9\" data-direction=\"down\">0:10</span>"+
+								"<p>Ai pierdut runda.</p>"+
+							"</div>"
 			});
 			$('#modal').click();
+			$(".counter").counter({});
+			$('.counter').on('counterStop', function() {
+				closeDialog();
+			});
 		});
 
 		socket
@@ -355,7 +381,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 				for (var i = 0; i < 3; i++) {
 					for (var j = 0; j < 3; j++) {
 						if ( ( !client_board[i][j].has("host") ) || ( !client_board[i][j].has("client") ) ) {
-
 							if ( !data.turn ) {
 								client_board[i][j].unbind("Click").css({cursor: "wait"});
 							} else {
@@ -373,17 +398,26 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 					}
 				}
 			})
-			.on('game:over', function(data){
+			.on('round:over', function(data){
 				if ( data.draw ) {
-					Crafty.scene("draw");
+					Crafty.scene("round:draw");
 				} else {
 					if ( data.winner ) {
-						Crafty.scene("win");
+						Crafty.scene("round:win");
 					} else {
-						Crafty.scene("lose");
+						Crafty.scene("round:lose");
 					}
 				}
+			})
+			.on('game:over', function(data){
+				if ( data.winner ) {
+					Crafty.scene("game:win");
+				} else {
+					Crafty.scene("game:lose");
+				}
 			});
+
+	});})(jQuery); // document ready & closure
 	}, function(err){ // socket is down
 			Crafty.init(600, 500);
 			Crafty.canvas.init();
@@ -395,5 +429,17 @@ requirejs([ 'jquery', 'crafty', 'lusitana'], function() {
 				.attr({x: Crafty.viewport.width/4, y: Crafty.viewport.height/2, w: Crafty.viewport.width, h:Crafty.viewport.height})
 				.css({color: "#345",fontSize:"22px", fontWeight: "bold"});
 	}); // require socketIo
-});})(jQuery); // document ready & closure
 }); //require jQuery and crafty
+
+var changeVolume = function(newVolume) {
+
+   if (!Crafty.support.audio)
+
+       return;
+
+   var s;
+   for (var i in this.sounds) {
+       s = this.sounds[i];
+       s.obj.volume = newVolume;
+   }
+}

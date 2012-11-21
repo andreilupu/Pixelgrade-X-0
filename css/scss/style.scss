@@ -1,6 +1,8 @@
 @charset "utf-8";
 @import "_mixins";
 @import "_font-awesome";
+@import "jquery.counter-analog.css";
+@import "jquery.counter-analog2.css";
 
 #pixelgradex0 {
 	
@@ -126,6 +128,12 @@
 		.modal-conent {
 			text-align: center;
 			font-size: 25px;
+			.counter {
+				float:right;
+				position:absolute;
+				top: 6px;
+				right: 30px;
+			}
 		}
 
 		.avgrund-close {
