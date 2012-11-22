@@ -3,10 +3,9 @@ var game_server = module.exports = { games : {}, game_count:0, players: {}, play
 	, underscore = require('underscore')
 	, mongo = require('mongoskin');
 
-var db = mongo.db('192.168.0.101:29070/pixelgradeX0?auto_reconnect', {safe:false});
+// var db = mongo.db('192.168.0.101:29070/pixelgradeX0?auto_reconnect', {safe:false});
 
 // Game functions
-
 game_server.findGame = function(player_socket) {
 	console.log('looking for a game. We have : ' + this.game_count);
 	if(this.game_count) {
@@ -39,7 +38,8 @@ game_server.createGame = function(player_socket) {
 		turn: 1,
 		board: new Array(),
 		turnCount: 1,  
-		round: 1
+		round: 0,
+		score: { host: 0, client: 0 }
 	};
 	this.games[ thegame.id ] = thegame;
 	this.game_count++;
@@ -64,17 +64,41 @@ game_server.startGame = function(game) {
 	game.player_host.to(game.id).emit('start:game');
 	game.active = true;
 	console.log("Game started : " + game.id);
-	db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
+	// db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
 }; //game_server.startGame
+
+game_server.startRound = function(data){
+	var thegame = this.games[data.gameid];
+
+	if ( data.host ) {
+		this.players[ this.games[data.gameid].player_host.userid ].ready = true;
+	} else {
+		this.players[ this.games[data.gameid].player_client.userid ].ready = true;
+	}
+
+	if ( this.players[ this.games[data.gameid].player_host.userid ].ready && this.players[ this.games[data.gameid].player_client.userid ].ready ) {
+		
+		this.games[data.gameid].turn = 1;
+		this.games[data.gameid].turnCount = 1;
+		for (var i = 0; i < 3; i++) {
+			this.games[data.gameid].board[i] = []; // reinit board
+			for (var j = 0; j < 3; j++) {
+				this.games[data.gameid].board[i][j]  = -1 ;
+			}
+		}
+		this.games[data.gameid].player_host.to(data.gameid).emit('round:start', { score: this.games[data.gameid].score} );
+		this.games[data.gameid].player_client.to(data.gameid).emit('round:start', { score: this.games[data.gameid].score});
+		this.players[ this.games[data.gameid].player_host.userid ].ready = false;
+		this.players[ this.games[data.gameid].player_client.userid ].ready = false;
+	}
+}
 
 //we are requesting to kill a game in progress.
 game_server.distroyGame = function(socket_userid) {
-
 	player = this.players[socket_userid];
 	gameid = player.gameid;
 	userid = player.userid;
 	var thegame = this.games[gameid];
-
 	if(thegame) {
 		//if the game has two players, the one is leaving
 		if(thegame.player_count > 1) {
@@ -104,7 +128,8 @@ game_server.createPlayer = function(socket){
 		name: "",
 		id: socket.userid,
 		gameid: "",
-		socket: socket
+		socket: socket,
+		ready: false,
 	}
 
 	this.players[ player.id ] = player;
@@ -185,18 +210,31 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 
 	//						the board 		coords
 	if ( checkFour(this.games[gameid].board, parseInt(x),parseInt( y)) ){ //checkTurn(this.games[gameid].board, x, y, lineWin = 3 ) ) {
+		
 		var winner = "";
+		
 		if ( host ){
-			this.games[gameid].player_host.wins++; // keep wins
+
+			// this.games[gameid].player_host.wins++; // keep wins
+			this.games[gameid].score.host++;
 			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 1 });
 			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 0 });
+
 			console.log("Host Won the round : "+ this.games[gameid].round +" ! " + gameid );
+
 		} else {
+			this.games[gameid].score.client++;
 			this.games[gameid].player_client.wins++; // keep wins
 			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 0 });
 			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 1 });
 			console.log("Client Won the round : "+ this.games[gameid].round +" ! " + gameid );
+
 		}
+
+		// reset the players state
+
+		this.players[ this.games[gameid].player_host.userid ].ready = false;
+		this.players[ this.games[gameid].player_client.userid ].ready = false;
 
 		return;
 	}

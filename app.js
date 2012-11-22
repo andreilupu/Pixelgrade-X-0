@@ -25,11 +25,6 @@ sio.of('/pixelgradeX&0')
 	game_server.createPlayer(client);
 
 	client
-		// .on('setNickname', function(data){ // only for development
-		// 	client.set('nickname', data.name, function(){
-		// 		client.emit('nicknameReady', {name: data.name, id: client.userid});
-		// 	});
-		// })
 		.on('set:player', function(data){
 			client.set('clientid', data.userid);
 			client.set('nickname', data.ls.name);
@@ -46,6 +41,9 @@ sio.of('/pixelgradeX&0')
 			client.get('nickname', function (err, name) {
 				game_server.proccessTurn( data.gameid, data.host,  data.cellID );
 			});
+		})
+		.on('start:round', function(data){
+			game_server.startRound(data);
 		})
 		.on('disconnect', function(){
 			game_server.playerDisconnect(client.userid);

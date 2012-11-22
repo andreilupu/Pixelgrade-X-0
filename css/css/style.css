@@ -1304,7 +1304,14 @@ ul.icons {
   /* line 85, ../scss/style.scss */
   #pixelgradex0 #cr-stage #modal {
     display: none; }
-  /* line 91, ../scss/style.scss */
+  /* line 89, ../scss/style.scss */
+  #pixelgradex0 #cr-stage .score {
+    font-family: Verdana, Arial, sans-serif;
+    font-weight: bold;
+    text-shadow: 0px 2px 2px #000;
+    font-size: 48px;
+    color: #fff; }
+  /* line 99, ../scss/style.scss */
   #pixelgradex0 .avgrund-popin {
     font-family: Arial, Helvetica, sans-serif;
     position: absolute;
@@ -1341,7 +1348,7 @@ ul.icons {
     background-image: -moz-linear-gradient(top, #fafafa, #dfdfdf);
     background-image: -o-linear-gradient(top, #fafafa, #dfdfdf);
     background-image: linear-gradient(to bottom, #fafafa, #dfdfdf); }
-    /* line 108, ../scss/style.scss */
+    /* line 116, ../scss/style.scss */
     #pixelgradex0 .avgrund-popin h3 {
       color: #353535;
       text-transform: uppercase;
@@ -1364,22 +1371,22 @@ ul.icons {
       -o-border-radius: 10px 10px 0 0;
       -border-radius: 10px 10px 0 0;
       border-radius: 10px 10px 0 0; }
-      /* line 121, ../scss/style.scss */
+      /* line 129, ../scss/style.scss */
       #pixelgradex0 .avgrund-popin h3 i {
         vertical-align: top;
         font-size: 40px;
         line-height: 20px; }
-    /* line 128, ../scss/style.scss */
+    /* line 136, ../scss/style.scss */
     #pixelgradex0 .avgrund-popin .modal-conent {
       text-align: center;
       font-size: 25px; }
-      /* line 131, ../scss/style.scss */
+      /* line 139, ../scss/style.scss */
       #pixelgradex0 .avgrund-popin .modal-conent .counter {
         float: right;
         position: absolute;
         top: 6px;
         right: 30px; }
-    /* line 139, ../scss/style.scss */
+    /* line 147, ../scss/style.scss */
     #pixelgradex0 .avgrund-popin .avgrund-close {
       text-decoration: none;
       color: #fff;
@@ -1402,7 +1409,7 @@ ul.icons {
       background-image: -moz-linear-gradient(top, #4eadbd, #368294);
       background-image: -o-linear-gradient(top, #4eadbd, #368294);
       background-image: linear-gradient(to bottom, #4eadbd, #368294); }
-  /* line 154, ../scss/style.scss */
+  /* line 162, ../scss/style.scss */
   #pixelgradex0 .avgrund-overlay {
     background: #000;
     position: absolute;
@@ -1414,7 +1421,7 @@ ul.icons {
     visibility: hidden;
     opacity: 0;
     filter: alpha(opacity=0); }
-  /* line 169, ../scss/style.scss */
+  /* line 177, ../scss/style.scss */
   #pixelgradex0 #cr-stage.avgrund-ready,
   #pixelgradex0 .avgrund-ready .avgrund-popin,
   #pixelgradex0 .avgrund-ready .avgrund-overlay {
@@ -1430,7 +1437,7 @@ ul.icons {
     -o-transition: 0.3s all ease-out;
     -transition: 0.3s all ease-out;
     transition: 0.3s all ease-out; }
-  /* line 174, ../scss/style.scss */
+  /* line 182, ../scss/style.scss */
   #pixelgradex0 #cr-stage.avgrund-active {
     -webkit-transform: scale(0.9);
     -moz-transform: scale(0.9);
@@ -1439,7 +1446,7 @@ ul.icons {
     -transform: scale(0.9);
     transform: scale(0.9);
     /* overflow: hidden;  TIP: disables scrolling for long documents */ }
-  /* line 179, ../scss/style.scss */
+  /* line 187, ../scss/style.scss */
   #pixelgradex0 .avgrund-active .avgrund-popin {
     visibility: visible;
     opacity: 1;
@@ -1450,12 +1457,12 @@ ul.icons {
     -o-transform: scale(1.1);
     -transform: scale(1.1);
     transform: scale(1.1); }
-  /* line 186, ../scss/style.scss */
+  /* line 194, ../scss/style.scss */
   #pixelgradex0 .avgrund-active .avgrund-overlay {
     visibility: visible;
     opacity: .5;
     filter: alpha(opacity=50); }
-  /* line 192, ../scss/style.scss */
+  /* line 200, ../scss/style.scss */
   #pixelgradex0 .avgrund-popin.stack {
     -webkit-transform: scale(1.5);
     -moz-transform: scale(1.5);
@@ -1463,7 +1470,7 @@ ul.icons {
     -o-transform: scale(1.5);
     -transform: scale(1.5);
     transform: scale(1.5); }
-  /* line 196, ../scss/style.scss */
+  /* line 204, ../scss/style.scss */
   #pixelgradex0 .avgrund-active .avgrund-popin.stack {
     -webkit-transform: scale(1.1);
     -moz-transform: scale(1.1);
@@ -1471,7 +1478,7 @@ ul.icons {
     -o-transform: scale(1.1);
     -transform: scale(1.1);
     transform: scale(1.1); }
-  /* line 200, ../scss/style.scss */
+  /* line 208, ../scss/style.scss */
   #pixelgradex0 .avgrund-active .avgrund-blur {
     -webkit-filter: 1px;
     -moz-filter: 1px;

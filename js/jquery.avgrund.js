@@ -1,6 +1,6 @@
 /**
  *  jQuery Avgrund Popin Plugin
- *  Inspired by concept in vanilla js - https://github.com/hakimel/Avgrund/
+ *  http://github.com/voronianski/jquery.avgrund.js/
  * 
  *  MIT licensed, (c) 2012 http://pixelhunter.me/
  */
@@ -18,18 +18,24 @@
 			overlayClass: '',
 			enableStackAnimation: false,
 			onBlurContainer: '',
+			openOnEvent: true,
+			setEvent: 'click',
+			onLoad: function() {},
+			onUnload: function() {},
 			template: '<p>This is test popin content!</p>'
 		};
 		var options = $.extend(defaults, options);
 
 		return this.each(function() {
-			var body = $('.board'),
+			var self = $(this),
+				body = $('#cr-stage'),
 				maxWidth = options.width > 640 ? 640 : options.width,
-				maxHeight = options.height > 350 ? 350 : options.height;
+				maxHeight = options.height > 350 ? 350 : options.height,
+				template = typeof options.template == 'function' ? options.template(self) : options.template;
 
 			body.addClass('avgrund-ready');
 			body.append('<div class="avgrund-overlay ' + options.overlayClass + '"></div>');				
-			body.append('<div class="avgrund-popin ' + options.holderClass + '">' + options.template + '</div>');
+			body.append('<div class="avgrund-popin ' + options.holderClass + '">' + template + '</div>');
 
 			$('.avgrund-popin').css({
 				'width': maxWidth + 'px',
@@ -38,42 +44,47 @@
 				'margin-top': '-' + (maxHeight / 2 + 10) + 'px'
 			});
 
-			if (options.showClose == true) {
+			if (options.showClose) {
 				$('.avgrund-popin').append('<a href="#" class="avgrund-close">' + options.showCloseText + '</a>');
 			}
 
-			if (options.enableStackAnimation == true) {
+			if (options.enableStackAnimation) {
 				$('.avgrund-popin').addClass('stack');
 			}
 
 			if (options.onBlurContainer != '') {
 				$(options.onBlurContainer).addClass('avgrund-blur');
 			}
-
+			
 			// close popup by clicking Esc button
-			if (options.closeByEscape == true) {
-				function onDocumentKeyup(e) {
+			function onDocumentKeyup(e) {
+				if (options.closeByEscape) {
 					if (e.keyCode === 27) {
 						deactivate();
 					}
 				}
 			}
-
-			// close popup only by 'close' button or by click on document too
+			
+			// close popup by clicking outside it
 			function onDocumentClick(e) {
-				if (options.closeByDocument == true) {
+				if (options.closeByDocument) {
 					if ($(e.target).is('.avgrund-overlay, .avgrund-close')) {
 						deactivate();
 					}
 				} else {
 					if ($(e.target).is('.avgrund-close')) {
 						deactivate();
-					}
+					}	
 				}
 			}
 
 			// show popup
 			function activate() {
+				// check if onLoad is a function and call it before popin is active
+				if (typeof options.onLoad == 'function') {
+					options.onLoad.call(self);
+				}
+
 				body.bind('keyup', onDocumentKeyup);
 				body.bind('click', onDocumentClick);
 
@@ -86,14 +97,22 @@
 				body.unbind('click', onDocumentClick);
 
 				body.removeClass('avgrund-active');
+
+				// check if onUnload is a function and call it after popin is closed
+				if (typeof options.onUnload == 'function') {
+					options.onUnload.call(self);
+				}
 			}
 
-			// init on click
-			$(this).click(function(e) {
-				e.stopPropagation();
-
+			// init on click or custom event
+			if (options.openOnEvent) {
+				self.bind(options.setEvent, function(e) {
+					e.stopPropagation();
+					activate();
+				});
+			} else {
 				activate();
-			});
+			}
 		});
 
 	}
