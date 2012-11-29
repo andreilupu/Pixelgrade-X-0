@@ -15,6 +15,10 @@ requirejs.config({
             deps: ['jquery'],
             exports: 'countdown'
 		},
+		'crafty':{
+            deps: ['jquery.avgrund', 'jquery.countdown' ],
+            exports: 'crafty'
+		},
 
 	},
 	paths: {
@@ -25,9 +29,9 @@ requirejs.config({
 });
 
 
-requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown',  'socketio'], function() {
-	;(function($){$(document).ready(function(){
-	// requirejs([ 'socketio' ], function(){
+requirejs([ 'jquery', 'crafty', 'lusitana', 'socketio'], function() {
+;(function($){
+	$(document).ready(function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
 			client_board = new Array(),
@@ -77,7 +81,7 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 		Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 80% 50% no-repeat transparent");
 		Crafty.audio.play("Bg", -1);
 
-		Crafty.e('HTML, DOM, Persist modalTriggerContainer') // the modal trigger
+		Crafty.e('HTML, DOM, modalTriggerContainer') // the modal trigger
 			.replace('<a id="modal"></a>')
 			.css({display: 'none' });
 		$('#modal').avgrund({
@@ -96,10 +100,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 								"<p>Runda fara castigator.</p>"+
 							"</div>"
 			});
-
-		// Crafty.e('HTML, DOM, Persist')
-		// 	.replace('<span class="counter counter-analog2" data-format="9" data-direction="down">0:10</span>')
-		// 	.attr({x:550, y:20, z:10, w:100, h:100});
 
 		Crafty.scene("world", function () { // game world
 			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
@@ -198,7 +198,7 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 				});
 		});
 
-		// Preload Game stage. Preparing players || count down time before start.
+		// Preload Game stage. Preparing players
 		Crafty.scene("preload", function () {
 			$('#overlay').fadeOut(600,function(){}); // put the loader
 			var board = Crafty.e("2D, DOM, Image")
@@ -396,11 +396,13 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 		});
 
 		Crafty.scene("round:draw", function () {
-
+			Crafty.e('HTML, DOM, modalTriggerContainer') // the modal trigger
+				.replace('<a id="modal"></a>')
+				.css({display: 'none' });
 			console.log('draw');
 			$('#modal').avgrund({
 				height: 200,
-				holderClass: 'custom',
+				holderClass: '#cr-stage',
 				showClose: true,
 				showCloseText: 'Continua jocul',
 				enableStackAnimation: true,
@@ -425,18 +427,19 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 		});
 
 		Crafty.scene("round:win", function () {
+			Crafty.e('HTML, DOM, modalTriggerContainer') // the modal trigger
+				.replace('<a id="modal"></a>')
+				.css({display: 'none' });
 			console.log('win');
 			$('#modal').avgrund({
 				height: 200,
-				holderClass: 'custom',
+				holderClass: '#cr-stage',
 				showClose: true,
 				showCloseText: 'Continua jocul',
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				onUnload: function(){
-					console.log('win close');
 					socket.emit('start:round', me );
-					Crafty.viewport.reset();
 				},
 				template: "<h3> Felicitari ! <i class=\"icon-thumbs-up\"></i></h3>"+
 							"<div class=\"modal-conent\" >"+
@@ -444,7 +447,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 								"<p>Ai castigat runda.</p>"+
 							"</div>"
 			});
-			console.log('try a click on closing win ');
 			$('#modal').click();
 			$(".counter").counter({});
 			$('.counter').on('counterStop', function() {
@@ -454,18 +456,19 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 		});
 
 		Crafty.scene("round:lose", function () {
+			Crafty.e('HTML, DOM, modalTriggerContainer') // the modal trigger
+				.replace('<a id="modal"></a>')
+				.css({display: 'none' });
 			console.log('lose');
 			$('#modal').avgrund({
 				height: 200,
-				holderClass: 'custom',
+				holderClass: '#cr-stage',
 				showClose: true,
 				showCloseText: 'Continua jocul',
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				onUnload: function(){
-					console.log('lose close');
 					socket.emit('start:round', me );
-					Crafty.viewport.reset();
 				},
 				template: "<h3> Ne pare rau ! <i class=\"icon-thumbs-down \"></i></h3>"+
 							"<div class=\"modal-conent\" >"+
@@ -473,7 +476,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 								"<p>Ai pierdut runda.</p>"+
 							"</div>"
 			});
-			console.log('try a click on closing lose ');
 			$('#modal').click();
 			$(".counter").counter({});
 			$('.counter').on('counterStop', function() {
@@ -528,7 +530,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 			.on('round:start', function(data){
 				me.score = data.score;
 				Crafty.scene("round:start");
-
 			})
 			.on('round:over', function(data){
 				if ( data.draw ) {
@@ -559,8 +560,9 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'jquery.avgrund', 'jquery.countdown'
 				.replace(" Serverul nu este disponibil momentan !")
 				.attr({x: Crafty.viewport.width/4, y: Crafty.viewport.height/2, w: Crafty.viewport.width, h:Crafty.viewport.height})
 				.css({color: "#345",fontSize:"22px", fontWeight: "bold"});
-	// }); // require socketIo
-	});})(jQuery); // document ready & closure
+
+	});
+})(jQuery); // document ready & closure
 }); //require jQuery and crafty
 
 var changeVolume = function(newVolume) {

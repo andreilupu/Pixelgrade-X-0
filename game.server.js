@@ -217,16 +217,15 @@ game_server.proccessTurn = function(gameid, host, cellID) {
 
 			// this.games[gameid].player_host.wins++; // keep wins
 			this.games[gameid].score.host++;
-			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 1 });
-			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 0 });
+			this.games[gameid].player_host.emit('round:over', {draw: false, winner: 1 });
+			this.games[gameid].player_client.emit('round:over', {draw: false, winner: 0 });
 
 			console.log("Host Won the round : "+ this.games[gameid].round +" ! " + gameid );
 
 		} else {
 			this.games[gameid].score.client++;
-			this.games[gameid].player_client.wins++; // keep wins
-			this.games[gameid].player_host.to(gameid).emit('round:over', {draw: false, winner: 0 });
-			this.games[gameid].player_client.to(gameid).emit('round:over', {draw: false, winner: 1 });
+			this.games[gameid].player_host.emit('round:over', {draw: false, winner: 0 });
+			this.games[gameid].player_client.emit('round:over', {draw: false, winner: 1 });
 			console.log("Client Won the round : "+ this.games[gameid].round +" ! " + gameid );
 
 		}

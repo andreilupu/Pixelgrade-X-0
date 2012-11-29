@@ -14,7 +14,7 @@
 			showCloseText: '',
 			closeByEscape: true,
 			closeByDocument: true,
-			holderClass: '',
+			holderClass: '#cr-stage',
 			overlayClass: '',
 			enableStackAnimation: false,
 			onBlurContainer: '',
@@ -97,11 +97,14 @@
 				body.unbind('click', onDocumentClick);
 
 				body.removeClass('avgrund-active');
-
+				body.bind('keyup', onDocumentKeyup);
+				body.bind('click', onDocumentClick);
 				// check if onUnload is a function and call it after popin is closed
 				if (typeof options.onUnload == 'function') {
 					options.onUnload.call(self);
+				
 				}
+
 			}
 
 			// init on click or custom event
