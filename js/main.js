@@ -16,10 +16,13 @@ requirejs.config({
             exports: 'countdown'
 		},
 		'crafty':{
-            deps: ['jquery.avgrund', 'jquery.countdown' ],
+            deps: ['jquery.avgrund'],
             exports: 'crafty'
 		},
-
+		'socketio':{
+            deps: ['jquery.countdown' ],
+            exports: 'socketio'
+		},
 	},
 	paths: {
 		jquery: 'http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min',
@@ -29,8 +32,7 @@ requirejs.config({
 });
 
 
-requirejs([ 'jquery', 'crafty', 'lusitana', 'socketio'], function() {
-;(function($){
+requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jquery.avgrund' ], function($) {
 	$(document).ready(function(){
 
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
@@ -562,7 +564,6 @@ requirejs([ 'jquery', 'crafty', 'lusitana', 'socketio'], function() {
 				.css({color: "#345",fontSize:"22px", fontWeight: "bold"});
 
 	});
-})(jQuery); // document ready & closure
 }); //require jQuery and crafty
 
 var changeVolume = function(newVolume) {

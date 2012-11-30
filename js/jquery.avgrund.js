@@ -5,7 +5,11 @@
  *  MIT licensed, (c) 2012 http://pixelhunter.me/
  */
 
-(function($) {
+!(function (context, definition) {
+  if (typeof define == 'function' && typeof define.amd  == 'object') define(['jquery'], definition);
+  else definition(context['$']);
+}(this, function ($) {
+// ;(function($) {
 	$.fn.avgrund = function(options) {
 		var defaults = {
 			width: 380, // max = 640
@@ -95,10 +99,7 @@
 			function deactivate() {
 				body.unbind('keyup', onDocumentKeyup);
 				body.unbind('click', onDocumentClick);
-
 				body.removeClass('avgrund-active');
-				body.bind('keyup', onDocumentKeyup);
-				body.bind('click', onDocumentClick);
 				// check if onUnload is a function and call it after popin is closed
 				if (typeof options.onUnload == 'function') {
 					options.onUnload.call(self);
@@ -119,4 +120,4 @@
 		});
 
 	}
-})(jQuery)
+}));
