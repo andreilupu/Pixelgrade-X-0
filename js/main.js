@@ -43,6 +43,32 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 
 		Crafty.init(690, 580);
 		Crafty.canvas.init();
+
+Crafty.load([
+	"./media/static/Pixelgrade-X-0/css/images/sprite120.png",
+	"./media/static/Pixelgrade-X-0/css/images/ajax-loader.gif",
+	"./media/static/Pixelgrade-X-0/css/images/avatar-holder.png",
+	"./media/static/Pixelgrade-X-0/css/images/bg.jpg",
+	"./media/static/Pixelgrade-X-0/css/images/board.png",
+	"./media/static/Pixelgrade-X-0/css/images/board-ready.png",
+	"./media/static/Pixelgrade-X-0/css/images/main_table.png",
+	"./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png",
+	"./media/static/Pixelgrade-X-0/js/audio/bg.wav",
+	"./media/static/Pixelgrade-X-0/js/audio/bg.mp3",
+	],
+    function() {
+    	// $('#overlay').fadeOut(600,function(){}); // loader
+    },
+
+    function(e) {
+      // console.log(e);
+    },
+
+    function(e) {
+      console.log(e);
+    }
+);
+
 		Crafty.audio.add("Bg", ["./media/static/Pixelgrade-X-0/js/audio/bg.wav", "./media/static/Pixelgrade-X-0/js/audio/bg.mp3"]);
 		Crafty.sprite(120, "./media/static/Pixelgrade-X-0/css/images/sprite120.png", {
 			avatarbg: [0, 0],
@@ -87,9 +113,7 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 		Crafty.scene("world", function () { // game world
 			
 			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
-
 			$('#overlay').fadeOut(600,function(){}); // loader
-			
 			var notice = Crafty.e("HTML, 2D, DOM")
 				.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Bine ai venit ! </div>" )
 				.attr({x: 0, y: 10, w:Crafty.viewport.width, h: 30});
@@ -114,7 +138,7 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 					}
 					notice.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Pentru a juca apasa butonul \"Joaca X&0\" ! </div>" );
 				});
-				
+
 			// // volume+
 			// Crafty.e("HTML, 2D, DOM, Persist, Mouse")
 			// 	.replace("<div class=\"sound-btn\"> <i class=\"icon-plus\"></i></div>" )
