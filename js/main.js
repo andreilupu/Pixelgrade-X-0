@@ -38,7 +38,8 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 		var socket = io.connect( config.url+":"+config.port+'/pixelgradeX&0'),
 			client_board = new Array(),
 			x0local = JSON.parse(localStorage.getItem( 'pixelgradeX0'))
-			me = { id:0, host: 0, name: "", gameid: "", score: {host: 0, client: 0} };
+			me = { id:0, host: 0, name: "", gameid: "", score: {host: 0, client: 0} }
+			opponent = {name: '', avatar: ''};
 
 		Crafty.init(690, 580);
 		Crafty.canvas.init();
@@ -83,40 +84,16 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 		Crafty.background("url('./media/static/Pixelgrade-X-0/css/images/main_table.png') 80% 50% no-repeat transparent");
 		Crafty.audio.play("Bg", -1);
 
-		Crafty.e('HTML, DOM, modalTriggerContainer') // the modal trigger
-			.replace('<a id="modal"></a>')
-			.css({display: 'none' });
-		$('#modal').avgrund({
-				height: 200,
-				holderClass: 'custom',
-				showClose: true,
-				showCloseText: 'Continua jocul',
-				enableStackAnimation: true,
-				onBlurContainer: '#cr-stage',
-				onUnload: function(){
-					socket.emit('start:round', me );
-				},
-				template: "<h3> Egalitate! <i class=\"icon-legal\"></i></h3>"+
-							"<div class=\"modal-conent\" >"+
-								"<span class=\"counter draw counter-analog\" data-format=\"9\" data-direction=\"down\">0:10</span>"+
-								"<p>Runda fara castigator.</p>"+
-							"</div>"
-			});
-
 		Crafty.scene("world", function () { // game world
+			
 			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
+
 			$('#overlay').fadeOut(600,function(){}); // loader
+			
 			var notice = Crafty.e("HTML, 2D, DOM")
 				.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Bine ai venit ! </div>" )
 				.attr({x: 0, y: 10, w:Crafty.viewport.width, h: 30});
-			// var sidebar = Crafty.e("2D, Canvas, DOM, Image, sidebar") // the right sidebar
-			// 	.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
-			// 	.attr({x: 525, y: 72, w: 118, h:395});
 
-			// Crafty.e('HTML, DOM')
-			// 	.replace('<h3>Online</h3>')
-			// 	.attr({x: 525, y: 75, w: 118, h:80})
-			// 	.css({textAlign: 'center' });
 			setTimeout(function(){
 				notice.replace("<div class=\"sound-notice\"> <i class=\"icon-arrow-left\"> </i> Aici poti controla sunetul ! </div>");
 			},7000);
@@ -137,31 +114,32 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 					}
 					notice.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Pentru a juca apasa butonul \"Joaca X&0\" ! </div>" );
 				});
-			// volume+
-			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
-				.replace("<div class=\"sound-btn\"> <i class=\"icon-plus\"></i></div>" )
-				.attr({x: 30, y: 10, z:10, w:20, h: 20})
-				.bind('Click', function(){
-					if ( (x0local.volume < 1) && (x0local.volume >= 0) ) {
-						x0local.volume = x0local.volume + 0.1 ;
-						x0local.volume = parseFloat( x0local.volume.toFixed(1) );
-						changeVolume(x0local.volume);
-						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
-						// i need a relooad
-					}
-				});
-			// volume-
-			Crafty.e("HTML, 2D, DOM, Persist, Mouse")
-				.replace("<div class=\"sound-btn\"> <i class=\"icon-minus\"></i></div>" )
-				.attr({x: 10, y: 10, z:10, w:20, h: 20})
-				.bind('Click', function(){
-					if ( (x0local.volume <= 1) && (x0local.volume >= 0.1) ) {
-						x0local.volume = x0local.volume - 0.1 ;
-						x0local.volume = parseFloat( x0local.volume.toFixed(1) );
-						changeVolume(x0local.volume);
-						localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
-					}
-				});
+				
+			// // volume+
+			// Crafty.e("HTML, 2D, DOM, Persist, Mouse")
+			// 	.replace("<div class=\"sound-btn\"> <i class=\"icon-plus\"></i></div>" )
+			// 	.attr({x: 30, y: 10, z:10, w:20, h: 20})
+			// 	.bind('Click', function(){
+			// 		if ( (x0local.volume < 1) && (x0local.volume >= 0) ) {
+			// 			x0local.volume = x0local.volume + 0.1 ;
+			// 			x0local.volume = parseFloat( x0local.volume.toFixed(1) );
+			// 			changeVolume(x0local.volume);
+			// 			localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+			// 			// i need a relooad
+			// 		}
+			// 	});
+			// // volume-
+			// Crafty.e("HTML, 2D, DOM, Persist, Mouse")
+			// 	.replace("<div class=\"sound-btn\"> <i class=\"icon-minus\"></i></div>" )
+			// 	.attr({x: 10, y: 10, z:10, w:20, h: 20})
+			// 	.bind('Click', function(){
+			// 		if ( (x0local.volume <= 1) && (x0local.volume >= 0.1) ) {
+			// 			x0local.volume = x0local.volume - 0.1 ;
+			// 			x0local.volume = parseFloat( x0local.volume.toFixed(1) );
+			// 			changeVolume(x0local.volume);
+			// 			localStorage.setItem( 'pixelgradeX0', JSON.stringify( x0local ) );
+			// 		}
+			// 	});
 
 			Crafty.e("HTML, 2D, DOM")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
@@ -232,7 +210,9 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 		});
 
 		Crafty.scene("game", function () {
+
 			$('#overlay').fadeOut(600,function(){});
+			
 			var board = Crafty.e("2D, DOM, Image, board, Persist")
 				.image("./media/static/Pixelgrade-X-0/css/images/board-ready.png")
 				.attr({x: 45, y: 60, w: 458, h:461})
@@ -240,6 +220,7 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 			sidebar = Crafty.e("2D, DOM, Image, Persist")
 				.image("./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png")
 				.attr({x: 525, y: 92, w: 118, h:395});
+
 			Crafty.e("HTML, 2D, DOM, Persist")
 				.replace("<h3 class=\"username\">"+ x0local.name +"</h3>")
 				.attr({x: 527, y: 50, w: 116, h: 40});
@@ -410,9 +391,9 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				onUnload: function(){
-					console.log('draw unload');
+					$('.counter').trigger('counterStop');
 					socket.emit('start:round', me );
-					Crafty.viewport.reset();
+					$('#modal, .avgrund-overlay, .avgrund-popin ').remove();
 				},
 				template: "<h3> Egalitate! <i class=\"icon-legal\"></i></h3>"+
 							"<div class=\"modal-conent\" >"+
@@ -441,7 +422,11 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
 				onUnload: function(){
+					$('.counter').trigger('counterStop');
 					socket.emit('start:round', me );
+					
+					$('#modal, .avgrund-overlay, .avgrund-popin ').remove();
+
 				},
 				template: "<h3> Felicitari ! <i class=\"icon-thumbs-up\"></i></h3>"+
 							"<div class=\"modal-conent\" >"+
@@ -469,8 +454,10 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 				showCloseText: 'Continua jocul',
 				enableStackAnimation: true,
 				onBlurContainer: '#cr-stage',
-				onUnload: function(){
+				onUnload: function(e){
 					socket.emit('start:round', me );
+					$('.counter').trigger('counterStop');
+					$('#modal, .avgrund-overlay, .avgrund-popin ').remove();
 				},
 				template: "<h3> Ne pare rau ! <i class=\"icon-thumbs-down \"></i></h3>"+
 							"<div class=\"modal-conent\" >"+

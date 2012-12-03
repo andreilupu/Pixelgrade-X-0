@@ -15,6 +15,7 @@
         options = options || {};
 
         var checkStop = function(data) {
+            if (data === undefined ) return;
             var stop = 0;
             var current = 0;
             $.each(data.parts, function(i, part) {
@@ -27,6 +28,7 @@
         var tick = function() {
             var e = $(this);
             var data = e.data('counter');
+            if (data === undefined ) return;
             var i = data.parts.length - 1;
             while(i >= 0 ) {
                 var part = data.parts[i];
