@@ -21,36 +21,36 @@ game_server = require('./game.server.js');
 
 sio.of('/pixelgradeX&0')
 	.on('connection', function(client) {
+
 	client.userid = UUID();
 	game_server.createPlayer(client);
 
 	client
 		.on('set:player', function(data){
 			client.set('clientid', data.userid);
-			client.set('nickname', data.ls.name);
 			client.get('clientid', function (err,id){
 				game_server.setPlayer(id,data.ls); // send the local storage	
 			})
 		})
 		.on('find:game',function(data){
-			client.get('nickname', function (err, name) {
-				game_server.findGame(client);
-			});
+			game_server.findGame(client);
 		})
 		.on('user:click', function(data){
-			client.get('nickname', function (err, name) {
-				game_server.proccessTurn( data.gameid, data.host,  data.cellID );
-			});
+			game_server.proccessTurn( data.gameid, data.host,  data.cellID );
 		})
 		.on('start:round', function(data){
 			game_server.startRound(data);
 		})
 		.on('disconnect', function(){
-			game_server.playerDisconnect(client.userid);
+			client.get('clientid', function (err,id){
+				game_server.distroyGame(id);
+			})
 		})
 		.on('distroy:game', function(){
-			game_server.distroyGame(client.userid);
-			client.emit('player:init', {id: client.userid});
+			client.get('clientid', function (err,id){
+				game_server.distroyGame(id);
+			})
+			
 		});
 });
 

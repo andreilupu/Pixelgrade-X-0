@@ -95,27 +95,39 @@ game_server.startRound = function(data){
 
 //we are requesting to kill a game in progress.
 game_server.distroyGame = function(socket_userid) {
+
 	player = this.players[socket_userid];
 	gameid = player.gameid;
 	userid = player.userid;
 	var thegame = this.games[gameid];
-	if(thegame) {
-		//if the game has two players, the one is leaving
+
+	if( thegame ) { // if there is such a game
+		delete this.games[gameid]; // delete it 
+		this.game_count--;
+		console.log("Game deleted. Now there are : "+ this.game_count+" games " );
+
 		if(thegame.player_count > 1) {
-			if( userid == thegame.player_host.userid) {
-				if(thegame.player_client) {
-					this.findGame(thegame.player_client);
+			if( userid == thegame.player_host.userid) { // if other player is still here send it to the main page.
+				if(thegame.player_client) { 
+					// this.findGame(thegame.player_client);
+					thegame.player_client.to(gameid).emit('player:init', thegame.player_client.userid);
 				}
 			} else {
 				if(thegame.player_host) {
-					this.findGame(thegame.player_host);
+					// this.findGame(thegame.player_host);
+					thegame.player_host.to(gameid).emit('player:init', thegame.player_host.userid);
 				}
 			}
 		}
-		delete this.games[gameid];
-		this.game_count--;
+
 	} else {
 		console.log('that game was not found!');
+	}
+
+	if (player) { // if there is such a player we say good bye
+		delete this.players[socket_userid];
+		this.players_count--;
+		console.log("Player left. There are now : "+ this.players_count);
 	}
 }; //game_server.distroyGame
 
@@ -148,38 +160,38 @@ game_server.setPlayer = function(userid, ls){
 	this.players[userid] = player;
 }
 
-game_server.playerDisconnect = function(socket_userid) {
+// game_server.playerDisconnect = function(socket_userid) {
 
-	player = this.players[socket_userid];
-	gameid = player.gameid;
-	userid = player.userid;
-	var thegame = this.games[gameid];
-	if(thegame) {
+// 	player = this.players[socket_userid];
+// 	gameid = player.gameid;
+// 	userid = player.userid;
+// 	var thegame = this.games[gameid];
+// 	if(thegame) {
 
-		//if the game has two players, the one is leaving
-		if(thegame.player_count > 1) {
-			if( userid == thegame.player_host.userid) {
-				if(thegame.player_client) {
-					this.findGame(thegame.player_client);
-				}
-			} else {
-				if(thegame.player_host) {
-					this.findGame(thegame.player_host);
-				}
-			}
-		}
-		delete this.games[gameid];
-		console.log("Game deleted : " + gameid);
-		this.game_count--;
-		console.log('game removed. there are now ' + this.game_count + ' games' );
-	}
+// 		//if the game has two players, the one is leaving
+// 		if(thegame.player_count > 1) {
+// 			if( userid == thegame.player_host.userid) {
+// 				if(thegame.player_client) {
+// 					this.findGame(thegame.player_client);
+// 				}
+// 			} else {
+// 				if(thegame.player_host) {
+// 					this.findGame(thegame.player_host);
+// 				}
+// 			}
+// 		}
+// 		delete this.games[gameid];
+// 		console.log("Game deleted : " + gameid);
+// 		this.game_count--;
+// 		console.log('game removed. there are now ' + this.game_count + ' games' );
+// 	}
 
-	console.log("Player disconnected " + socket_userid);
+// 	console.log("Player disconnected " + socket_userid);
 
-	delete this.players[socket_userid];
-	this.player_client--;
+// 	delete this.players[socket_userid];
+// 	this.player_client--;
 
-}; //game_server.playerDisconnect
+// }; //game_server.playerDisconnect
 
 // End player functions
 // Game loop functions
