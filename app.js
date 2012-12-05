@@ -29,7 +29,7 @@ sio.of('/pixelgradeX&0')
 		.on('set:player', function(data){
 			client.set('clientid', data.userid);
 			client.get('clientid', function (err,id){
-				game_server.setPlayer(id,data.ls); // send the local storage	
+				game_server.setPlayer(id,data); // send the local storage	
 			})
 		})
 		.on('find:game',function(data){
@@ -43,14 +43,13 @@ sio.of('/pixelgradeX&0')
 		})
 		.on('disconnect', function(){
 			client.get('clientid', function (err,id){
-				game_server.distroyGame(id);
+				game_server.disconnectPlayer(id);
 			})
 		})
 		.on('distroy:game', function(){
 			client.get('clientid', function (err,id){
 				game_server.distroyGame(id);
 			})
-			
 		});
 });
 

@@ -62,9 +62,7 @@ game_server.createGame = function(player_socket) {
 game_server.startGame = function(game) {
 	game.player_client.to(game.id).emit('start:game', {gameid: game.id}); // the client doesn't know yet his gameid
 	game.player_host.to(game.id).emit('start:game');
-	game.active = true;
 	console.log("Game started : " + game.id);
-	// db.collection('games').save({id:game.id , host: game.player_host.userid, client: game.player_client.userid });
 }; //game_server.startGame
 
 game_server.startRound = function(data){
@@ -94,41 +92,27 @@ game_server.startRound = function(data){
 }
 
 //we are requesting to kill a game in progress.
-game_server.distroyGame = function(socket_userid) {
+game_server.distroyGame = function(userid) {
 
-	player = this.players[socket_userid];
-	gameid = player.gameid;
-	userid = player.userid;
-	var thegame = this.games[gameid];
+	var player = this.players[userid];
+	console.log(player);
+	if ( player ) {
+		var gameid = player.gameid;
+	}
+	if ( gameid ) {
+		var thegame = this.games[gameid];
+	}
+	if ( thegame ) { // if there is such a game
 
-	if( thegame ) { // if there is such a game
 		delete this.games[gameid]; // delete it 
 		this.game_count--;
-		console.log("Game deleted. Now there are : "+ this.game_count+" games " );
-
-		if(thegame.player_count > 1) {
-			if( userid == thegame.player_host.userid) { // if other player is still here send it to the main page.
-				if(thegame.player_client) { 
-					// this.findGame(thegame.player_client);
-					thegame.player_client.to(gameid).emit('player:init', thegame.player_client.userid);
-				}
-			} else {
-				if(thegame.player_host) {
-					// this.findGame(thegame.player_host);
-					thegame.player_host.to(gameid).emit('player:init', thegame.player_host.userid);
-				}
-			}
-		}
+		console.log("Game deleted. Now there are : "+ this.game_count +" games " );
+		thegame.player_host.to(gameid).emit('player:init', {id: thegame.player_host.userid});
 
 	} else {
 		console.log('that game was not found!');
 	}
 
-	if (player) { // if there is such a player we say good bye
-		delete this.players[socket_userid];
-		this.players_count--;
-		console.log("Player left. There are now : "+ this.players_count);
-	}
 }; //game_server.distroyGame
 
 // End game functions
@@ -145,54 +129,32 @@ game_server.createPlayer = function(socket){
 	}
 
 	this.players[ player.id ] = player;
+	this.players_count++;
 	socket.emit('player:init', { id: player.id });
 	console.log("Player Created ! " + player.id );
+	console.log("There are now: "+ this.players_count +" players");
 
 }
 
 game_server.setPlayer = function(userid, ls){
+
 	var player = this.players[userid];
-
-	this.players[userid].name = ls.name;
-	this.players[userid].avatar = ls.avatar;
-	this.players[userid].type = ls.type;
-
-	this.players[userid] = player;
+	if ( player ) {
+		player.name = ls.name;
+		player.avatar = ls.avatar;
+		player.type = ls.type;
+		this.players[userid] = player;
+	}
 }
+game_server.disconnectPlayer = function(userid){
 
-// game_server.playerDisconnect = function(socket_userid) {
-
-// 	player = this.players[socket_userid];
-// 	gameid = player.gameid;
-// 	userid = player.userid;
-// 	var thegame = this.games[gameid];
-// 	if(thegame) {
-
-// 		//if the game has two players, the one is leaving
-// 		if(thegame.player_count > 1) {
-// 			if( userid == thegame.player_host.userid) {
-// 				if(thegame.player_client) {
-// 					this.findGame(thegame.player_client);
-// 				}
-// 			} else {
-// 				if(thegame.player_host) {
-// 					this.findGame(thegame.player_host);
-// 				}
-// 			}
-// 		}
-// 		delete this.games[gameid];
-// 		console.log("Game deleted : " + gameid);
-// 		this.game_count--;
-// 		console.log('game removed. there are now ' + this.game_count + ' games' );
-// 	}
-
-// 	console.log("Player disconnected " + socket_userid);
-
-// 	delete this.players[socket_userid];
-// 	this.player_client--;
-
-// }; //game_server.playerDisconnect
-
+	if (this.players[userid]) { // if there is such a player we say good bye
+		delete this.players[userid];
+		this.players_count--;
+		console.log("Player left. There are now : "+ this.players_count+ " players");
+	}
+	this.distroyGame(userid); // if the player was into a game we distroy it
+}
 // End player functions
 // Game loop functions
 

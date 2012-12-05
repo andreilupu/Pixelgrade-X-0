@@ -44,30 +44,30 @@ requirejs(['jquery', 'jquery.countdown', 'crafty', 'lusitana', 'socketio', 'jque
 		Crafty.init(690, 580);
 		Crafty.canvas.init();
 
-Crafty.load([
-	"./media/static/Pixelgrade-X-0/css/images/sprite120.png",
-	"./media/static/Pixelgrade-X-0/css/images/ajax-loader.gif",
-	"./media/static/Pixelgrade-X-0/css/images/avatar-holder.png",
-	"./media/static/Pixelgrade-X-0/css/images/bg.jpg",
-	"./media/static/Pixelgrade-X-0/css/images/board.png",
-	"./media/static/Pixelgrade-X-0/css/images/board-ready.png",
-	"./media/static/Pixelgrade-X-0/css/images/main_table.png",
-	"./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png",
-	"./media/static/Pixelgrade-X-0/js/audio/bg.wav",
-	"./media/static/Pixelgrade-X-0/js/audio/bg.mp3",
-	],
-    function() {
-    	// $('#overlay').fadeOut(600,function(){}); // loader
-    },
+		Crafty.load([ // preload all the resources
+			"./media/static/Pixelgrade-X-0/css/images/sprite120.png",
+			"./media/static/Pixelgrade-X-0/css/images/ajax-loader.gif",
+			"./media/static/Pixelgrade-X-0/css/images/avatar-holder.png",
+			"./media/static/Pixelgrade-X-0/css/images/bg.jpg",
+			"./media/static/Pixelgrade-X-0/css/images/board.png",
+			"./media/static/Pixelgrade-X-0/css/images/board-ready.png",
+			"./media/static/Pixelgrade-X-0/css/images/main_table.png",
+			"./media/static/Pixelgrade-X-0/css/images/sidebar-bg.png",
+			"./media/static/Pixelgrade-X-0/js/audio/bg.wav",
+			"./media/static/Pixelgrade-X-0/js/audio/bg.mp3",
+			],
+		    function() {
+		    	// $('#overlay').fadeOut(600,function(){}); // loader
+		    },
 
-    function(e) {
-      // console.log(e);
-    },
+		    function(e) {
+		      // console.log(e);
+		    },
 
-    function(e) {
-      console.log(e);
-    }
-);
+		    function(e) {
+		      console.log(e);
+		    }
+		);
 
 		Crafty.audio.add("Bg", ["./media/static/Pixelgrade-X-0/js/audio/bg.wav", "./media/static/Pixelgrade-X-0/js/audio/bg.mp3"]);
 		Crafty.sprite(120, "./media/static/Pixelgrade-X-0/css/images/sprite120.png", {
@@ -112,8 +112,9 @@ Crafty.load([
 
 		Crafty.scene("world", function () { // game world
 			
-			Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
-			$('#overlay').fadeOut(600,function(){}); // loader
+			// Crafty.viewport.reload(); // somehow the view gets fked so i need a reset
+			$('#overlay').fadeOut(600); // loader
+
 			var notice = Crafty.e("HTML, 2D, DOM")
 				.replace("<div class=\"notice\"> <i class=\"icon-info-sign\"></i> Bine ai venit ! </div>" )
 				.attr({x: 0, y: 10, w:Crafty.viewport.width, h: 30});
@@ -501,6 +502,9 @@ Crafty.load([
 				me.id = data.id;
 				Crafty.scene("world");
 				socket.emit('set:player', {userid:me.id, ls: x0local});
+			})
+			.on('world:reset', function(){
+				Crafty.scene("world");
 			})
 			.on('nicknameReady', function(data){ // getting the nickname from server and create a local storage
 				var storage = {};
